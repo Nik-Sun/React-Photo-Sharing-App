@@ -1,13 +1,18 @@
-const baseUrl = 'http://localhost:3030/jsonstore/images'
+import { uploadFile } from '../utils/uploadFile'
+const baseUrl = 'http://localhost:3030/jsonstore/images';
 
-export const create = async (data) => {
 
-    let response = await fetch(baseUrl,{
-        method:'POST',
-        headers:{
-            'content-type':'application/json'
+export const create = async (file, title, tags) => {
+    let data = await uploadFile(file);
+    data.title = title;
+    data.tags = tags;
+
+    let response = await fetch(baseUrl, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
         },
-        body:JSON.stringify(data)
+        body: JSON.stringify(data)
     });
 
     let repsonseData = await response.json();

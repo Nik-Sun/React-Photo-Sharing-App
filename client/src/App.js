@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Upload } from "./components/Upload/Upload";
 import { Register } from "./components/Register/Register";
 import { AuthProvider } from "./contexts/AuthContext";
+import { Login } from "./components/Login/Login";
+import { Logout } from "./components/Logout/Logout";
 
 
 
@@ -19,6 +21,8 @@ function App() {
           <Route path={'/'} element={<PhotosList />} />
           <Route path={'/upload'} element={<Upload />} />
           <Route path={'/register'} element={<Register />} />
+          <Route path={'/login'} element={<Login />} />
+          <Route path={'/logout'} element={<Logout />} />
         </Routes>
         <Footer />
       </AuthProvider>

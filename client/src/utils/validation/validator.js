@@ -1,6 +1,5 @@
 const emailRegex = /^[A-Za-z0-9_\.]+@[A-Za-z]+\.[A-Za-z]{2,3}$/;
-const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png']
-const maxFileSize = 5242880;
+
 
 const emailValidator = (email) => {
     if (!email) {
@@ -29,13 +28,11 @@ const confirmPasswordValidator = (password, passwordConfirm) => {
     }
     return '';
 };
-const fileValidator = (file) => {
-    if (allowedFileTypes.indexOf(file.type) === -1) {
-        return 'The chosen file type is not supported';
+const tagsValidator = (tags) => {
+    if (tags.length === 0) {
+        return 'Add at least 1 tag';
     }
-    if (file.size > maxFileSize) {
-        return 'File exceeds maximum file size of 5MB';
-    }
+
 };
 const titleValidator = (title) => {
     if (!title) {
@@ -55,7 +52,7 @@ export {
     emailValidator,
     passwordValidator,
     confirmPasswordValidator,
-    fileValidator,
+    tagsValidator,
     titleValidator,
     usernameValidator
 }

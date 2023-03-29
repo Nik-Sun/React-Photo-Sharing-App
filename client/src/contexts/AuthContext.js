@@ -15,8 +15,20 @@ export const AuthProvider = ({ children }) => {
         setLocalStorage(createdUser);
     };
 
+    const loginUser = async (email, password) => {
+        let loggedUser = await userService.login(email, password);
+        setLocalStorage(loggedUser);
+    };
+
+    const logoutUser = async () => {
+        let noUser = await userService.logout();
+        setLocalStorage(noUser);
+    };
+
     const contextValues = {
         createUser,
+        loginUser,
+        logoutUser,
         user
     };
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { useAuthForm } from '../../hooks/useAuthForm'
 import { useValidateForm } from '../../hooks/useValidateForm';
@@ -32,7 +32,7 @@ export const Register = () => {
 
         <div className="col-12 mb-5 mt-2">
             <h2 className="text-center tm-text-primary mb-5">Register</h2>
-            <form onSubmit={onFormSubmit} id="contact-form" action="" method="POST" className="tm-contact-form mx-auto">
+            <form onSubmit={onFormSubmit} className="tm-contact-form mx-auto">
                 <div className="form-group">
                     <input
                         className="form-control rounded-0"

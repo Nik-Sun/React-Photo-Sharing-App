@@ -1,36 +1,39 @@
 const baseUrl = 'http://localhost:3030';
 
-async function request(method,target,data){
+async function request(method, target, data) {
 
-    let targetUrl = target.startsWith('http')? target : baseUrl + target;
+    let targetUrl = target.startsWith('http') ? target : baseUrl + target;
 
     let options = {
         method,
-        headers : {}
+        headers: {}
     }
-    if(data !== undefined){
+    if (data !== undefined) {
         if (data instanceof FormData) {
             options.body = data;
         }
-        else{
+        else {
             options.body = JSON.stringify(data);
             options.headers['content-type'] = 'application/json';
         }
-       
+
     }
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(user){
-        options.headers['X-Authorization'] = user.accessToken;
+    let user = localStorage.getItem('user');
+
+
+    if (user !== '{}') {
+        let accessToken = JSON.parse(user).accessToken
+        options.headers['X-Authorization'] = accessToken;
     }
     try {
-        let response = await fetch(targetUrl,options);
-        if(response.ok === false){
-           let error = await response.json();
-           throw new Error(error.message)
+        let response = await fetch(targetUrl, options);
+        if (response.ok === false) {
+            let error = await response.json();
+            throw new Error(error.message)
         }
-        if(response.status === 204){
-            return response;
-        }else {
+        if (response.status === 204) {
+            return {};
+        } else {
             return response.json();
         }
     } catch (error) {
@@ -38,10 +41,10 @@ async function request(method,target,data){
         throw error;
     }
 }
-const get = request.bind({},'GET');
-const post = request.bind({},'POST');
-const put = request.bind({},'PUT');
-const del = request.bind({},'DELETE');
+const get = request.bind({}, 'GET');
+const post = request.bind({}, 'POST');
+const put = request.bind({}, 'PUT');
+const del = request.bind({}, 'DELETE');
 
 export {
     get,
