@@ -11,11 +11,11 @@ export const Login = () => {
         email: '',
         password: ''
     });
-    const { errors, validateForm } = useValidateForm();
+    const { errors, isFormValid, onBlur } = useValidateForm(formValues);
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        const isValid = validateForm(formValues);
+        const isValid = isFormValid();
         if (isValid) {
             loginUser(formValues.email, formValues.password);
         }
@@ -34,8 +34,9 @@ export const Login = () => {
                         type="email" name="email"
                         placeholder="Email"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.email}</span>
+                    <span className='text-danger'>{errors.email.errorMsg}</span>
                 </div>
 
                 <div className="form-group">
@@ -46,8 +47,9 @@ export const Login = () => {
                         name="password"
                         placeholder="Password"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.password}</span>
+                    <span className='text-danger'>{errors.password.errorMsg}</span>
                 </div>
 
                 <div className="form-group tm-text-right">

@@ -8,6 +8,7 @@ import { Register } from "./components/Register/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Login } from "./components/Login/Login";
 import { Logout } from "./components/Logout/Logout";
+import { PhotoDetail } from "./components/PhotoDetails/PhotoDetails";
 
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path={'/register'} element={<Register />} />
           <Route path={'/login'} element={<Login />} />
           <Route path={'/logout'} element={<Logout />} />
+          <Route path={'/photos/:photoId'} element={<PhotoDetail />} />
         </Routes>
         <Footer />
       </AuthProvider>

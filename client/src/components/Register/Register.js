@@ -12,11 +12,11 @@ export const Register = () => {
         password: '',
         confirmPassword: ''
     });
-    const { errors, validateForm } = useValidateForm();
+    const { errors, isFormValid, onBlur } = useValidateForm(formValues);
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        const isValid = validateForm(formValues);
+        const isValid = isFormValid();
         if (isValid) {
             createUser(
                 formValues.username,
@@ -41,8 +41,9 @@ export const Register = () => {
                         name="username"
                         placeholder="Username"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.username}</span>
+                    <span className='text-danger'>{errors.username.errorMsg}</span>
                 </div>
                 <div className="form-group">
                     <input
@@ -51,8 +52,9 @@ export const Register = () => {
                         type="email" name="email"
                         placeholder="Email"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.email}</span>
+                    <span className='text-danger'>{errors.email.errorMsg}</span>
                 </div>
 
                 <div className="form-group">
@@ -63,8 +65,9 @@ export const Register = () => {
                         name="password"
                         placeholder="Password"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.password}</span>
+                    <span className='text-danger'>{errors.password.errorMsg}</span>
                 </div>
                 <div className="form-group">
                     <input
@@ -74,8 +77,9 @@ export const Register = () => {
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         required
+                        onBlur={onBlur}
                         onChange={onFormChange} />
-                    <span className='text-danger'>{errors.confirmPassword}</span>
+                    <span className='text-danger'>{errors.confirmPassword.errorMsg}</span>
                 </div>
 
                 <div className="form-group tm-text-right">

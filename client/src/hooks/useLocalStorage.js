@@ -7,7 +7,7 @@ export const useLocalStorage = (key) => {
         if (user) {
             return JSON.parse(user);
         }
-        return null;
+        return {};
     });
 
     const setLocalStorage = (user) => {

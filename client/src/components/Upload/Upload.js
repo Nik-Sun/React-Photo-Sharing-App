@@ -16,31 +16,55 @@ export const Upload = () => {
         file
     } = useFileForm();
 
-    const [tags, setTags] = useState([]);
-    const [tagInput, setTagInput] = useState('');
+    const [tags, setTags] = useState({
+        current: '',
+        added: [],
+        error: '',
+    });
+
     const [spinner, setSpinner] = useState(false);
-    const { errors, isFormValid, onBlur } = useValidateForm({ ...formValues, preview, tags });
+    const { errors, isFormValid, onBlur } = useValidateForm({ ...formValues });
 
 
 
     const removeTag = (index) => {
-        setTags(tags => tags.filter((x, i) => i !== index))
+        const newTags = tags.added.filter((x, i) => i !== index);
+        setTags(tags => ({ ...tags, added: newTags }))
     };
 
-    const tagsHandler = (e) => {
+    const onTagsChange = (e) => {
+        const value = e.target.value;
+        setTags(t => ({ ...t, current: value }));
+    }
+
+    const onTagAdd = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            setTags(tags => [...tags, tagInput]);
-            setTagInput('');
-            onBlur(e);
+            const newTag = e.target.value;
+
+            if (newTag.length < 3) {
+                setTags(t => ({ ...t, error: 'Tag must be at least 3 chars' }));
+                return;
+            }
+            const newTagsState = { current: '', added: ([...tags.added, newTag]), error: '' }
+            setTags(newTagsState);
+
         }
     };
 
+    const onTagsBlur = () => {
+        if (tags.added.length === 0) {
+            setTags(t => ({ ...t, error: 'Error' }))
+        }
+    }
+
     async function submitHandler(e) {
         e.preventDefault();
-        let isValid = isFormValid();
-        console.log(isValid)
-        if (isValid) {
+        const isValid = isFormValid();
+        const isTagsValid = tags.added.length > 0;
+        const isFileValid = preview !== '';
+        console.log(isValid, isTagsValid, isFileValid)
+        if (isValid, isTagsValid, isFileValid) {
 
             setSpinner(true);
             let image = await create(file, formValues.title, tags);
@@ -67,14 +91,14 @@ export const Upload = () => {
 
                     <div className="form-group">
                         <input onChange={onFormChange} onBlur={onBlur} value={formValues.title} type="text" name="title" className="form-control rounded-0" placeholder="Title" required />
-                        <span className='text-danger'>{errors.title.error}</span>
+                        <span className='text-danger'>{errors.title.errorMsg}</span>
                     </div>
 
 
                     <div className="form-group">
                         <div className="tags-input-container form-control rounded-0">
-                            {tags.length > 0 ?
-                                tags.map((t, i) => (
+                            {tags.added.length > 0 ?
+                                tags.added.map((t, i) => (
 
                                     <div key={i} className="tag-item">
                                         <span className="text">{t}</span>
@@ -84,10 +108,10 @@ export const Upload = () => {
                                 )) : 'Add tag in the field below and press Enter'}
 
                         </div>
-                        <span className='text-danger'>{errors.tags.error}</span>
+                        <span className='text-danger'>{tags.error}</span>
                     </div>
                     <div className="form-group">
-                        <input value={tagInput} onKeyDown={tagsHandler} onBlur={onBlur} onChange={(e) => setTagInput(e.target.value)} type="text" name="tags" className="form-control rounded-0" placeholder="Image Tags" />
+                        <input value={tags.current} onBlur={onTagsBlur} onChange={onTagsChange} onKeyDown={onTagAdd} type="text" name="tags" className="form-control rounded-0" placeholder="Image Tags" />
                     </div>
 
 

@@ -31,7 +31,7 @@ export const PhotosList = () => {
                             <img src={i.eager[0].url} alt="" className="img-fluid " />
                             <figcaption className="d-flex align-items-center justify-content-center">
                                 <h2>{i.title}</h2>
-                                <Link to={'/'}>View more</Link>
+                                <Link to={`/photos/${i._id}`}>View more</Link>
                             </figcaption>
                         </figure>
                         <div className="d-flex justify-content-between tm-text-gray">
