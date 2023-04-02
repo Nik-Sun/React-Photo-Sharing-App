@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getOne } from '../../services/imageService'
-export const PhotoDetail = () => {
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useContext } from 'react';
 
+import { AuthContext } from '../../contexts/AuthContext';
+import { getOne } from '../../services/imageService'
+
+export const PhotoDetail = () => {
+    const { isOwner, isAuthenticated } = useContext(AuthContext);
     const { photoId } = useParams();
     const [photo, setPhoto] = useState({});
+
     useEffect(() => {
-        getOne(photoId)
-            .then(data => {
-                console.log(data)
-                setPhoto(data)
-            })
-    }, [])
+        getOne(photoId).then(data => {
+            setPhoto(data)
+        })
+    }, [photoId])
 
 
     return (
@@ -21,22 +24,29 @@ export const PhotoDetail = () => {
             </div>
             <div className="row tm-mb-90">
                 <div className="col-xl-8 col-lg-7 col-md-6 col-sm-12">
-                    <img src={photo.eager[0].url} alt="Image" className="img-fluid" />
+                    <img src={photo.resizedUrl} alt="Image" className="img-fluid" />
                 </div>
                 <div className="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                     <div className="tm-bg-gray tm-video-details">
                         <p className="mb-4">
-                            Please support us by making <a href="https://paypal.me/templatemo" target="_parent" rel="sponsored">a PayPal donation</a>. Nam ex nibh, efficitur eget libero ut, placerat aliquet justo. Cras nec varius leo.
+                            Uploaded by {photo.uploadedBy}
                         </p>
-                        <div className="text-center mb-5">
-                            <a href="#" className="btn btn-primary tm-btn-big">Download</a>
-                        </div>
+                        {isAuthenticated &&
+                            <div className="text-center mb-5">
+                                <Link to={photo.downloadUrl} target="_blank" download className="btn btn-primary tm-btn-big">Download</Link>
+                            </div>}
+                        {isOwner(photo._ownerId) &&
+                            <div className="text-center mb-5">
+                                <a href="#" className="btn btn-danger">Delete</a>
+                            </div>
+                        }
+
                         <div className="mb-4 d-flex flex-wrap">
                             <div className="mr-4 mb-2">
-                                <span className="tm-text-gray-dark">Dimension: </span><span className="tm-text-primary">1920x1080</span>
+                                <span className="tm-text-gray-dark">Dimension: </span><span className="tm-text-primary">{photo.width} x {photo.height}</span>
                             </div>
                             <div className="mr-4 mb-2">
-                                <span className="tm-text-gray-dark">Format: </span><span className="tm-text-primary">JPG</span>
+                                <span className="tm-text-gray-dark">Format: </span><span className="tm-text-primary">{photo.format?.toUpperCase()}</span>
                             </div>
                         </div>
                         <div className="mb-4">
@@ -45,7 +55,7 @@ export const PhotoDetail = () => {
                         </div>
                         <div>
                             <h3 className="tm-text-gray-dark mb-3">Tags</h3>
-                            {/* {photo.tags.map(x => <p className="tm-text-primary mr-4 mb-2 d-inline-block">{x}</p>)} */}
+                            <p className="tm-text-primary mr-4 mb-2 d-inline-block">{photo.tags}</p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +65,7 @@ export const PhotoDetail = () => {
                     Related Photos
                 </h2>
             </div>
-            <div className="row mb-3 tm-gallery">
+            {/* <div className="row mb-3 tm-gallery">
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                     <figure className="effect-ming tm-video-item">
                         <img src="img/img-01.jpg" alt="Image" className="img-fluid" />
@@ -160,7 +170,7 @@ export const PhotoDetail = () => {
                         <span>11,300 views</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

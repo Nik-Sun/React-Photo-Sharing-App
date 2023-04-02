@@ -20,7 +20,7 @@ async function request(method, target, data) {
     }
     let user = localStorage.getItem('user');
 
-    console.log(user);
+
     if (user && user !== '{}') {
         let accessToken = JSON.parse(user).accessToken
         options.headers['X-Authorization'] = accessToken;
@@ -37,7 +37,7 @@ async function request(method, target, data) {
             return response.json();
         }
     } catch (error) {
-        alert(error.message);
+        console.log(error.message)
         throw error;
     }
 }

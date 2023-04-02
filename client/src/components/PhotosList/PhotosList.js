@@ -28,7 +28,7 @@ export const PhotosList = () => {
                 {pageImages.map(i => (
                     <div key={i._id} className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                         <figure className="effect-ming tm-video-item">
-                            <img src={i.eager[0].url} alt="" className="img-fluid " />
+                            <img src={i.resizedUrl} alt="" className="img-fluid " />
                             <figcaption className="d-flex align-items-center justify-content-center">
                                 <h2>{i.title}</h2>
                                 <Link to={`/photos/${i._id}`}>View more</Link>

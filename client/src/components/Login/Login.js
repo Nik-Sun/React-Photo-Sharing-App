@@ -1,10 +1,12 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthForm } from "../../hooks/useAuthForm";
 import { useValidateForm } from "../../hooks/useValidateForm";
 import { AuthContext } from '../../contexts/AuthContext';
 
 export const Login = () => {
+    const navigate = useNavigate();
     const { loginUser } = useContext(AuthContext)
 
     const { formValues, onFormChange } = useAuthForm({
@@ -17,7 +19,13 @@ export const Login = () => {
         e.preventDefault();
         const isValid = isFormValid();
         if (isValid) {
-            loginUser(formValues.email, formValues.password);
+            try {
+                await loginUser(formValues.email, formValues.password);
+                navigate('/')
+            } catch (error) {
+                alert(error)
+            }
+
         }
 
     };

@@ -1,10 +1,12 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthForm } from '../../hooks/useAuthForm'
 import { useValidateForm } from '../../hooks/useValidateForm';
 import { AuthContext } from '../../contexts/AuthContext';
 
 export const Register = () => {
+    const navigate = useNavigate();
     const { createUser } = useContext(AuthContext);
     const { formValues, onFormChange } = useAuthForm({
         username: '',
@@ -23,6 +25,7 @@ export const Register = () => {
                 formValues.email,
                 formValues.password
             );
+            navigate('/');
         }
 
     };

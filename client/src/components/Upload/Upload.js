@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useFileForm } from '../../hooks/useFileForm';
@@ -63,11 +63,10 @@ export const Upload = () => {
         const isValid = isFormValid();
         const isTagsValid = tags.added.length > 0;
         const isFileValid = preview !== '';
-        console.log(isValid, isTagsValid, isFileValid)
         if (isValid, isTagsValid, isFileValid) {
 
             setSpinner(true);
-            let image = await create(file, formValues.title, tags);
+            let image = await create(file, formValues.title, tags.added.join(' '));
             setSpinner(false);
             navigate('/');
         }

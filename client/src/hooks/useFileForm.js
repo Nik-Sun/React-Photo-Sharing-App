@@ -23,13 +23,6 @@ export const useFileForm = () => {
 
 
 
-
-
-
-
-
-
-
     const onFileChange = (e) => {
         const previewFile = e.target.files[0];
         let errors = validateFile(previewFile);

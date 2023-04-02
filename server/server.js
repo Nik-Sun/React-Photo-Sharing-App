@@ -1322,11 +1322,13 @@
         users: {
             "35c62d76-8152-4626-8712-eeb96381bea8": {
                 email: "peter@abv.bg",
-                hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
+                hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1",
+                username: 'Peter'
             },
             "847ec027-f659-4086-8032-5173e2f9c93a": {
                 email: "john@abv.bg",
-                hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
+                hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1",
+                username: 'John'
             }
         },
         sessions: {
@@ -1362,8 +1364,40 @@
                 "_createdOn": 1617194295474,
             }
         },
+        images:
+            [
+                {
+                    "_ownerId": "847ec027-f659-4086-8032-5173e2f9c93a",
+                    "title": "Country side",
+                    "url": "http://res.cloudinary.com/ddhwtoy0m/image/upload/v1680440296/photo-sharing-app/Classy_Wallpapers_561__069_tqlkci.jpg",
+                    "bytes": 1086526,
+                    "tags": "Wallpaper Calm Beautiful sky",
+                    "format": "jpg",
+                    "height": 1080,
+                    "width": 1920,
+                    "resizedUrl": "http://res.cloudinary.com/ddhwtoy0m/image/upload/c_fill,h_1080,w_1920/v1680440296/photo-sharing-app/Classy_Wallpapers_561__069_tqlkci.jpg",
+                    "_createdOn": 1680440298142,
+                    "_id": "4f0610da-4fd8-49d1-8527-baf30fd66025",
+                    "uploadedBy": "John"
+                },
+                {
+                    "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
+                    "title": "Cozy Cabin",
+                    "orgiginalUrl": "http://res.cloudinary.com/ddhwtoy0m/image/upload/v1680441717/photo-sharing-app/Classy_Wallpapers_560__053_ctrdwd.jpg",
+                    "bytes": 2472554,
+                    "tags": "Cabin Cozy Wallpaper",
+                    "format": "jpg",
+                    "height": 2160,
+                    "width": 3840,
+                    "resizedUrl": "http://res.cloudinary.com/ddhwtoy0m/image/upload/c_fill,h_1080,w_1920/v1680441717/photo-sharing-app/Classy_Wallpapers_560__053_ctrdwd.jpg",
+                    "_createdOn": 1680441719257,
+                    "_id": "3da33df8-631f-47a4-817c-fcd834e52cc8",
+                    "uploadedBy": "Peter"
+                }
+            ]
+        ,
         comments: {
-        
+
         }
     };
     var rules$1 = {

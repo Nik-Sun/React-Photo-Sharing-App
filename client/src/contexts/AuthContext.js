@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 import * as userService from '../services/userServise'
@@ -16,20 +16,38 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginUser = async (email, password) => {
-        let loggedUser = await userService.login(email, password);
-        setLocalStorage(loggedUser);
+        try {
+            let loggedUser = await userService.login(email, password);
+            setLocalStorage(loggedUser);
+            console.log('login fired');
+        } catch (error) {
+            console.log('login fired with error');
+            throw error.message;
+        }
+
     };
 
     const logoutUser = async () => {
-        let noUser = await userService.logout();
-        setLocalStorage(noUser);
+        console.log('logout fire');
+        await userService.logout();
+        setLocalStorage({});
     };
+
+    const isOwner = (ownerId) => {
+        const currentUserId = user._id;
+        if (ownerId !== currentUserId) {
+            return false;
+        }
+        return true;
+    }
 
     const contextValues = {
         createUser,
         loginUser,
         logoutUser,
-        user
+        username: user.username,
+        isOwner,
+        isAuthenticated: user.accessToken ? true : false
     };
 
     return (
