@@ -54,7 +54,7 @@ export const Upload = () => {
 
     const onTagsBlur = () => {
         if (tags.added.length === 0) {
-            setTags(t => ({ ...t, error: 'Error' }))
+            setTags(t => ({ ...t, error: 'Add at least one tag' }))
         }
     }
 
@@ -63,7 +63,8 @@ export const Upload = () => {
         const isValid = isFormValid();
         const isTagsValid = tags.added.length > 0;
         const isFileValid = preview !== '';
-        if (isValid, isTagsValid, isFileValid) {
+        console.log(isTagsValid)
+        if (isValid && isTagsValid && isFileValid) {
 
             setSpinner(true);
             let image = await create(file, formValues.title, tags.added.join(' '));

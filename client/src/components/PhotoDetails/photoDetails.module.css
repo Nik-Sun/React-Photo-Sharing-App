@@ -1,0 +1,39 @@
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    padding: .5rem .5rem;
+}
+
+.modalP {
+    flex-basis: 100%;
+}
+
+.danger {
+    width: 5rem;
+    background-color: #dc3545;
+    padding: .375rem .75rem;
+    border: none;
+    color: white;
+    transition: background-color .15s ease-in-out;
+}
+
+.danger:hover {
+    background-color: #c82333
+}
+
+.calm {
+    width: 5rem;
+    background-color: #009999;
+    padding: .375rem .75rem;
+    border: none;
+    color: white;
+    transition: background-color .15s ease-in-out;
+}
+
+.calm:hover {
+    background-color: #086969;
+}

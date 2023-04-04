@@ -4,8 +4,8 @@ import * as request from '../utils/request'
 const baseUrl = 'http://localhost:3030/data/images';
 
 const endpoints = {
-    create: '/data/images',
-    getOne: (id) => `/data/images/${id}`,
+    all: '/data/images',
+    single: (id) => `/data/images/${id}`,
 }
 
 export const create = async (file, titleInput, tagsInput) => {
@@ -27,30 +27,24 @@ export const create = async (file, titleInput, tagsInput) => {
     newObj.downloadUrl = data.eager[1].url;
     console.log(data);
     console.log(newObj);
-    let response = await request.post(endpoints.create, newObj);
+    let response = await request.post(endpoints.all, newObj);
     console.log(response);
+};
 
-    // let response = await fetch(baseUrl, {
-    //     method: 'POST',
-    //     headers: {
-    //         'content-type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data)
-    // });
-
-    // let repsonseData = await response.json();
-    // return repsonseData;
-
-}
 export const getAll = async () => {
     let response = await fetch(baseUrl);
     let data = await response.json();
 
     return Object.values(data);
-}
+};
+
 export const getOne = async (id) => {
-    let ep = endpoints.getOne(id);
-    console.log(ep);
-    let data = await request.get(ep);
+
+    let data = await request.get(endpoints.single(id));
+    return data;
+};
+
+export const remove = async (id) => {
+    let data = await request.delete(endpoints.single(id));
     return data;
 }

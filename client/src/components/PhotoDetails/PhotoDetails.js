@@ -1,20 +1,32 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
-import { getOne } from '../../services/imageService'
+import { getOne, remove } from '../../services/imageService';
+import styles from './photoDetails.module.css'
 
 export const PhotoDetail = () => {
+    const navigate = useNavigate();
     const { isOwner, isAuthenticated } = useContext(AuthContext);
     const { photoId } = useParams();
     const [photo, setPhoto] = useState({});
+    const [dialog, setDialog] = useState(false);
 
     useEffect(() => {
         getOne(photoId).then(data => {
             setPhoto(data)
         })
-    }, [photoId])
+    }, [photoId]);
+
+    const onDeleteClick = async (e) => {
+        setDialog(dialog => !dialog);
+
+    }
+    const onDeleteHandler = async () => {
+        await remove(photoId);
+        navigate('/photos')
+    }
 
 
     return (
@@ -36,9 +48,24 @@ export const PhotoDetail = () => {
                                 <Link to={photo.downloadUrl} target="_blank" download className="btn btn-primary tm-btn-big">Download</Link>
                             </div>}
                         {isOwner(photo._ownerId) &&
-                            <div className="text-center mb-5">
-                                <a href="#" className="btn btn-danger">Delete</a>
-                            </div>
+                            <>
+                                {dialog
+                                    ? <div className={styles.modal}>
+
+                                        <p className={styles.modalP}>Are you sure you want to delete this image? </p>
+                                        <button onClick={onDeleteHandler} className={styles.danger}>Yes</button>
+                                        <button onClick={onDeleteClick} className={styles.calm}>No</button>
+
+                                    </div>
+
+                                    : <div className="text-center mb-5">
+                                        <button onClick={onDeleteClick} className="btn btn-danger">Delete</button>
+                                    </div>}
+
+
+
+                            </>
+
                         }
 
                         <div className="mb-4 d-flex flex-wrap">

@@ -28,9 +28,15 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logoutUser = async () => {
-        console.log('logout fire');
-        await userService.logout();
-        setLocalStorage({});
+        try {
+            await userService.logout();
+        } catch (error) {
+            throw error.message;
+        } finally {
+            setLocalStorage({});
+        }
+
+
     };
 
     const isOwner = (ownerId) => {
