@@ -28,9 +28,11 @@ const confirmPasswordValidator = (password, passwordConfirm) => {
     }
     return '';
 };
-const tagsValidator = (tags) => {
-    if (tags.length === 0) {
-        return 'Add at least 1 tag';
+const commentValidator = (comment) => {
+    if (comment.length === 0) {
+        return 'You cannot add empty comment';
+    } if (comment.length > 160) {
+        return 'Comments must be brief, at most 160 characters';
     }
 
 };
@@ -52,7 +54,7 @@ export {
     emailValidator,
     passwordValidator,
     confirmPasswordValidator,
-    tagsValidator,
+    commentValidator,
     titleValidator,
     usernameValidator
 }

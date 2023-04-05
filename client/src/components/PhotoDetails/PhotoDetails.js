@@ -4,7 +4,9 @@ import { useContext } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { getOne, remove } from '../../services/imageService';
+import { addLike, getAllLikes, getMyLike, removeLike } from '../../services/likeService'
 import styles from './photoDetails.module.css'
+import { Comments } from './Comments/Comments';
 
 export const PhotoDetail = () => {
     const navigate = useNavigate();
@@ -12,11 +14,38 @@ export const PhotoDetail = () => {
     const { photoId } = useParams();
     const [photo, setPhoto] = useState({});
     const [dialog, setDialog] = useState(false);
+    const [likes, setLikes] = useState({
+        count: 0,
+        myLike: {}
+    });
+
+    const onLikeAddClick = async () => {
+        const like = await addLike(photoId);
+        console.log(like)
+        setLikes(l => ({
+            count: l.count + 1,
+            myLike: like
+        }));
+    };
+
+    const onLikeRemoveClick = async () => {
+        await removeLike(likes.myLike._id);
+        setLikes(l => ({
+            count: l.count - 1,
+            myLike: {}
+        }));
+    }
 
     useEffect(() => {
-        getOne(photoId).then(data => {
-            setPhoto(data)
-        })
+        Promise.all([
+            getOne(photoId),
+            getAllLikes(photoId),
+            getMyLike(photoId)
+        ])
+            .then(([p, l, ml]) => {
+                setPhoto(p)
+                setLikes({ count: l, myLike: ml })
+            })
     }, [photoId]);
 
     const onDeleteClick = async (e) => {
@@ -27,6 +56,8 @@ export const PhotoDetail = () => {
         await remove(photoId);
         navigate('/photos')
     }
+
+
 
 
     return (
@@ -40,15 +71,23 @@ export const PhotoDetail = () => {
                 </div>
                 <div className="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                     <div className="tm-bg-gray tm-video-details">
-                        <p className="mb-4">
-                            Uploaded by {photo.uploadedBy}
-                        </p>
+                        <div className={styles.details}>
+                            <p>Uploaded by {photo.uploadedBy}</p>
+
+                            <p className={styles.likeCount}> <i className="fas fa-heart"></i>: {likes.count}</p>
+                        </div>
                         {isAuthenticated &&
-                            <div className="text-center mb-5">
-                                <Link to={photo.downloadUrl} target="_blank" download className="btn btn-primary tm-btn-big">Download</Link>
-                            </div>}
-                        {isOwner(photo._ownerId) &&
-                            <>
+                            <div className={styles.likeBtnContainer}>
+                                <Link to={photo.downloadUrl} target="_blank" download className={styles.likeBtn}>Download</Link>
+                                {likes.myLike._ownerId
+                                    ? <button onClick={onLikeRemoveClick} className={styles.likeBtn}>Remove <i className="far fa-heart"></i></button>
+                                    : <button onClick={onLikeAddClick} className={styles.likeBtn}>Add <i className="far fa-heart"></i></button>}
+                            </div>
+
+                        }
+
+                        {isAuthenticated && isOwner(photo._ownerId)
+                            ? <>
                                 {dialog
                                     ? <div className={styles.modal}>
 
@@ -61,10 +100,17 @@ export const PhotoDetail = () => {
                                     : <div className="text-center mb-5">
                                         <button onClick={onDeleteClick} className="btn btn-danger">Delete</button>
                                     </div>}
+                                <div className="text-center mb-5">
+                                    {/* {likes.find(x => isOwner(x) === true)
+                                        ? <button className={styles.likeBtn}>Remove <i className="far fa-heart"></i></button>
+                                        : <button onClick={onLikeAddClick} className={styles.likeBtn}>Add <i className="far fa-heart"></i></button>
+                                    } */}
 
 
-
+                                </div>
                             </>
+                            : ''
+
 
                         }
 
@@ -84,9 +130,15 @@ export const PhotoDetail = () => {
                             <h3 className="tm-text-gray-dark mb-3">Tags</h3>
                             <p className="tm-text-primary mr-4 mb-2 d-inline-block">{photo.tags}</p>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
+            <Comments photoId={photoId} isAuthenticated={isAuthenticated} />
+
             <div className="row mb-4">
                 <h2 className="col-12 tm-text-primary">
                     Related Photos

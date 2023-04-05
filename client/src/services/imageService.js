@@ -2,6 +2,7 @@ import { uploadFile } from '../utils/uploadFile'
 import * as request from '../utils/request'
 
 const baseUrl = 'http://localhost:3030/data/images';
+const viewsUrl = 'http://localhost:3030/jsonstore/views';
 
 const endpoints = {
     all: '/data/images',
@@ -25,10 +26,8 @@ export const create = async (file, titleInput, tagsInput) => {
     };
     newObj.resizedUrl = data.eager[0].url;
     newObj.downloadUrl = data.eager[1].url;
-    console.log(data);
-    console.log(newObj);
+
     let response = await request.post(endpoints.all, newObj);
-    console.log(response);
 };
 
 export const getAll = async () => {

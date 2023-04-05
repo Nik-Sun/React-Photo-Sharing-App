@@ -18,11 +18,7 @@ export const PhotosList = () => {
                 <h2 className="col-6 tm-text-primary">
                     Latest Photos
                 </h2>
-                <div className="col-6 d-flex justify-content-end align-items-center">
-                    <form action="" className="tm-text-primary">
-                        Page <input type="text" value="1" size="1" className="tm-input-paging tm-text-primary" /> of 200
-                    </form>
-                </div>
+
             </div>
             <div className="row tm-mb-90 tm-gallery">
                 {pageImages.map(i => (

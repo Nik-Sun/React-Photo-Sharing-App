@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
 
     const isOwner = (ownerId) => {
         const currentUserId = user._id;
+        console.log(ownerId === currentUserId)
         if (ownerId !== currentUserId) {
             return false;
         }

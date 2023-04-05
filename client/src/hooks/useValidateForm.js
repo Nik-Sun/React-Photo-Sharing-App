@@ -5,7 +5,8 @@ import {
     passwordValidator as password,
     confirmPasswordValidator as confirmPassword,
     titleValidator as title,
-    usernameValidator as username
+    usernameValidator as username,
+    commentValidator as comment
 } from '../utils/validation/validator';
 
 export const useValidateForm = (formValues) => {
@@ -56,7 +57,8 @@ export const useValidateForm = (formValues) => {
         password,
         confirmPassword,
         title,
-        username
+        username,
+        comment
     }
 
     const [errors, setErrors] = useState(initialErrors);
@@ -64,7 +66,7 @@ export const useValidateForm = (formValues) => {
 
 
 
-    const validateForm = (updatedErrors, fieldName) => {
+    const validateField = (updatedErrors, fieldName) => {
         let isValid = true;
         const value = formValues[fieldName];
         console.log(`field name : ${fieldName} field val: ${value}`);
@@ -73,7 +75,7 @@ export const useValidateForm = (formValues) => {
             ? validator[fieldName](formValues.password, value)
             : validator[fieldName](value);
 
-        if (result && errorsCopy[fieldName].isTouched === true) {
+        if (result) {
             errorsCopy[fieldName].isValid = false;
             errorsCopy[fieldName].errorMsg = result;
             isValid = false;
@@ -84,75 +86,7 @@ export const useValidateForm = (formValues) => {
         }
         setErrors(errorsCopy);
         return isValid;
-        // if (formValues.hasOwnProperty('email') && field ==='email') {
-        //     let error = emailValidator(formValues.email);
 
-        //     if (error && newIsTouched.email) {
-
-        //         setErrors(err => ({ ...err, email: { ...err.email, error } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, email: { ...err.email, error: '' } }))
-        //     }
-
-        // }
-        // if (formValues.hasOwnProperty('password')) {
-        //     let error = passwordValidator(formValues.password);
-        //     if (error && newIsTouched.password) {
-
-        //         setErrors(err => ({ ...err, password: { ...err.password, error } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, password: { ...err.password, error: '' } }))
-        //     }
-
-        // }
-        // if (formValues.hasOwnProperty('confirmPassword')) {
-
-        //     let error = confirmPasswordValidator(formValues.password, formValues.confirmPassword);
-        //     if (error && newIsTouched.confirmPassword) {
-
-        //         setErrors(err => ({ ...err, confirmPassword: { ...err.confirmPassword, error } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, confirmPassword: { ...err.confirmPassword, error: '' } }))
-        //     }
-
-        // }
-        // if (formValues.hasOwnProperty('tags')) {
-
-        //     let error = tagsValidator(formValues.tags);
-
-        //     if (error && newIsTouched.tags) {
-
-        //         setErrors(err => ({ ...err, tags: { ...err.tags, error, isValid: false } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, tags: { ...err.tags, error: '' } }))
-        //     }
-        // }
-        // if (formValues.hasOwnProperty('title')) {
-        //     let error = titleValidator(formValues.title);
-        //     console.log(formValues.title, error, initialIsTouched);
-        //     if (error && newIsTouched.title) {
-
-        //         setErrors(err => ({ ...err, title: { ...err.title, error, isValid: false } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, title: { ...err.title, error: '', isValid: true } }))
-        //     }
-        // }
-        // if (formValues.hasOwnProperty('username')) {
-        //     let error = usernameValidator(formValues.username);
-        //     if (error && newIsTouched.username) {
-        //         setErrors(err => ({ ...err, username: { ...err.username, error: error, isValid: false } }))
-        //     }
-        //     else {
-        //         setErrors(err => ({ ...err, username: { ...err.username, error: '', isValid: true } }))
-        //     }
-
-        // }
-        // setIsTouched(newIsTouched);
     }
 
 
@@ -169,10 +103,10 @@ export const useValidateForm = (formValues) => {
                     ...errors[fieldName], isTouched: true
                 }
             }
-            validateForm(updatedErrors, fieldName);
+            validateField(updatedErrors, fieldName);
         }
         else {
-            validateForm(errors, fieldName);
+            validateField(errors, fieldName);
         }
 
 
@@ -184,7 +118,7 @@ export const useValidateForm = (formValues) => {
         const formFields = Object.keys(formValues);
 
         for (const field of formFields) {
-            let isFieldValid = validateForm(errors, field);
+            let isFieldValid = validateField(errors, field);
             if (isFieldValid === false) return false;
         }
         return true;

@@ -5,8 +5,12 @@ export const useAuthForm = (init) => {
     const onFormChange = (e) => {
         setFormValues(v => ({ ...v, [e.target.name]: e.target.value }))
     };
+    const resetForm = () => {
+        setFormValues(init);
+    }
     return {
         formValues,
-        onFormChange
+        onFormChange,
+        resetForm
     };
 };
