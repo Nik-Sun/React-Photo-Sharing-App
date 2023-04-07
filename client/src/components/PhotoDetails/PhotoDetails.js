@@ -37,6 +37,7 @@ export const PhotoDetail = () => {
     }
 
     useEffect(() => {
+
         Promise.all([
             getOne(photoId),
             getAllLikes(photoId),
@@ -45,8 +46,12 @@ export const PhotoDetail = () => {
             .then(([p, l, ml]) => {
                 setPhoto(p)
                 setLikes({ count: l, myLike: ml })
+            }).catch(err => {
+                navigate('/');
             })
-    }, [photoId]);
+
+
+    }, [photoId, navigate]);
 
     const onDeleteClick = async (e) => {
         setDialog(dialog => !dialog);

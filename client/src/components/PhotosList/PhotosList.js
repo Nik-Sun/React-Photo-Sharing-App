@@ -1,16 +1,70 @@
 import { useState, useEffect } from 'react';
-import { getAll } from '../../services/imageService';
-import { Link } from 'react-router-dom';
+import { getAll, search } from '../../services/imageService';
+import { Link, useSearchParams } from 'react-router-dom';
+
 
 
 export const PhotosList = () => {
 
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const [pageImages, setPageImages] = useState([]);
+    const [page, setPage] = useState({
+        max: 1,
+        current: 1
+    });
+
+
+    // useEffect(() => {
+    //     getAll()
+    //         .then(data => setPageImages(data))
+    // }, []);
 
     useEffect(() => {
-        getAll()
-            .then(data => setPageImages(data))
-    }, []);
+        console.log('useEffect fire!!!');
+        const searchQuery = searchParams.get('search');
+        const pageQuery = Number(searchParams.get('page'));
+
+        const pageNum = pageQuery ? pageQuery : 1;
+        console.log(pageNum);
+        if (searchQuery) {
+            search(searchQuery, pageNum)
+                .then(data => {
+                    setPage({
+                        max: Math.ceil(data.count / 8),
+                        current: pageNum
+                    });
+                    setPageImages(data.response)
+                });
+        } else {
+            getAll(pageNum)
+                .then(data => {
+                    setPage({
+                        max: Math.ceil(data.count / 8),
+                        current: pageNum
+                    });
+                    setPageImages(data.response)
+                });
+        }
+
+
+    }, [searchParams]);
+
+
+    const onNextPageClick = () => {
+        const pageQuery = Number(searchParams.get('page'));
+        const searhQuery = searchParams.get('search');
+
+        const pageNum = pageQuery ? pageQuery : 1;
+        const newPage = pageNum + 1;
+        const newParams = {
+            'search': searhQuery,
+            'page': newPage
+        }
+        setSearchParams(newParams)
+
+    };
 
     return (
         <div className="container-fluid tm-container-content tm-mt-60">
@@ -39,14 +93,21 @@ export const PhotosList = () => {
             </div>
             <div className="row tm-mb-90">
                 <div className="col-12 d-flex justify-content-between align-items-center tm-paging-col">
-                    <a href="/" className="btn btn-primary tm-btn-prev mb-2 disabled">Previous</a>
-                    <div className="tm-paging d-flex">
-                        <a href="/" className="active tm-paging-link">1</a>
-                        <a href="/" className="tm-paging-link">2</a>
-                        <a href="/" className="tm-paging-link">3</a>
-                        <a href="/" className="tm-paging-link">4</a>
-                    </div>
-                    <a href="/" className="btn btn-primary tm-btn-next">Next Page</a>
+                    {page.current > 1
+                        ? <button className="btn btn-primary tm-btn-prev mb-2">Previous</button>
+                        : <button className="btn btn-primary tm-btn-prev mb-2 disabled">Previous</button>}
+
+                    {/* <div className="tm-paging d-flex">
+                        <a className="active tm-paging-link">1</a>
+                        <a className="tm-paging-link">2</a>
+                        <a className="tm-paging-link">3</a>
+                        <a className="tm-paging-link">4</a>
+                    </div> */}
+                    {page.current === page.max
+                        ? <button className="btn btn-primary tm-btn-next disabled">Next Page</button>
+                        : <button onClick={onNextPageClick} className="btn btn-primary tm-btn-next">Next Page</button>}
+
+
                 </div>
             </div>
         </div>

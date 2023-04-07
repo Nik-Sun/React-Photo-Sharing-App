@@ -7,6 +7,11 @@ const viewsUrl = 'http://localhost:3030/jsonstore/views';
 const endpoints = {
     all: '/data/images',
     single: (id) => `/data/images/${id}`,
+    searchPaged: (query, offset) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&offset=${offset}&pageSize=8`,
+    allPaged: (offset) => `/data/images?offset=${offset}&pageSize=8`,
+    searchCount: (query) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&count`,
+    allCount: '/data/images?count'
+
 }
 
 export const create = async (file, titleInput, tagsInput) => {
@@ -30,15 +35,23 @@ export const create = async (file, titleInput, tagsInput) => {
     let response = await request.post(endpoints.all, newObj);
 };
 
-export const getAll = async () => {
-    let response = await fetch(baseUrl);
-    let data = await response.json();
+export const getAll = async (page = 1) => {
+    if (page) {
+        const response = await request.get(endpoints.allPaged((page * 8) - 8));
+        const count = await request.get(endpoints.allCount);
+        console.log(count);
+        return {
+            response,
+            count
+        };
+    }
+    // let response = await fetch(baseUrl);
+    // let data = await response.json();
 
-    return Object.values(data);
+    // return Object.values(data);
 };
 
 export const getOne = async (id) => {
-
     let data = await request.get(endpoints.single(id));
     return data;
 };
@@ -46,4 +59,15 @@ export const getOne = async (id) => {
 export const remove = async (id) => {
     let data = await request.delete(endpoints.single(id));
     return data;
+}
+
+export const search = async (query, page) => {
+    console.log(query, page);
+    const response = await request.get(endpoints.searchPaged(query, (page * 8) - 8));
+    const count = await request.get(endpoints.searchCount(query));
+    console.log(query, count);
+    return {
+        response,
+        count
+    }
 }

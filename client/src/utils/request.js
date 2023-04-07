@@ -29,7 +29,7 @@ async function request(method, target, data) {
         let response = await fetch(targetUrl, options);
         if (response.ok === false) {
             let error = await response.json();
-            throw new Error(error.message)
+            throw error;
         }
         if (response.status === 204) {
             return {};

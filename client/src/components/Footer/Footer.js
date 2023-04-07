@@ -6,7 +6,7 @@ export const Footer = () => {
                 <div className="row">
                     <div className="col-lg-6 col-md-12 col-12 px-5 mb-5">
                         <h3 className="tm-text-primary mb-4 tm-footer-title">About Catalog-Z</h3>
-                        <p>Catalog-Z is free <a rel="sponsored" href="https://v5.getbootstrap.com/">Bootstrap 5</a> Alpha 2 HTML Template for video and photo websites. You can freely use this TemplateMo layout for a front-end integration with any kind of CMS website.</p>
+                        <p>This is a photo sharing and downloading app, created as project defence work for the React/JS course @ Softuni. This app is designed to cater to photo enthusiasts of all levels and provides an easy-to-use platform for sharing, downloading, and browsing high-quality images.</p>
                     </div>
                     <div className="col-lg-3 col-md-6 col-sm-6 col-12 px-5 mb-5">
                         <h3 className="tm-text-primary mb-4 tm-footer-title">Our Links</h3>
@@ -30,7 +30,7 @@ export const Footer = () => {
                 </div>
                 <div className="row">
                     <div className="col-lg-8 col-md-7 col-12 px-5 mb-3">
-                        Copyright 2020 Catalog-Z Company. All rights reserved.
+                        Copyright 2023 Nikolai Palashev. All rights reserved.
                     </div>
                     <div className="col-lg-4 col-md-5 col-12 px-5 text-right">
                         Designed by <a href="https://templatemo.com" className="tm-text-gray" rel="sponsored" target="_parent">TemplateMo</a>

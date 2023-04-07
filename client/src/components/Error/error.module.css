@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    height: 300px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.error {
+    color: rgb(219, 24, 24);
+    font-size: 25px;
+    margin-right: 10px;
+}
