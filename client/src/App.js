@@ -14,8 +14,10 @@ import { Home } from "./components/Home/Home";
 import { GuardedRoute } from "./components/GuardedRoute/GuardedRoute";
 import { Error } from "./components/Error/Error";
 
-import styles from './public/css/loader.module.css'
 import { ErrorProvider } from "./contexts/ErrorContext";
+
+import styles from './public/css/loader.module.css'
+
 
 
 function App() {

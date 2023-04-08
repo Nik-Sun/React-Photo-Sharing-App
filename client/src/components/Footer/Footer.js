@@ -8,7 +8,7 @@ export const Footer = () => {
                         <h3 className="tm-text-primary mb-4 tm-footer-title">About Catalog-Z</h3>
                         <p>This is a photo sharing and downloading app, created as project defence work for the React/JS course @ Softuni. This app is designed to cater to photo enthusiasts of all levels and provides an easy-to-use platform for sharing, downloading, and browsing high-quality images.</p>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6 col-12 px-5 mb-5">
+                    {/* <div className="col-lg-3 col-md-6 col-sm-6 col-12 px-5 mb-5">
                         <h3 className="tm-text-primary mb-4 tm-footer-title">Our Links</h3>
                         <ul className="tm-footer-links pl-0">
                             <li><a href="#">Advertise</a></li>
@@ -16,25 +16,23 @@ export const Footer = () => {
                             <li><a href="#">Our Company</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
-                    </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6 col-12 px-5 mb-5">
+                    </div> */}
+                    <div className="col-md-6">
                         <ul className="tm-social-links d-flex justify-content-end pl-0 mb-5">
-                            <li className="mb-2"><a href="https://facebook.com"><i className="fab fa-facebook"></i></a></li>
-                            <li className="mb-2"><a href="https://twitter.com"><i className="fab fa-twitter"></i></a></li>
-                            <li className="mb-2"><a href="https://instagram.com"><i className="fab fa-instagram"></i></a></li>
-                            <li className="mb-2"><a href="https://pinterest.com"><i className="fab fa-pinterest"></i></a></li>
+                            <li className="mb-2"><a href="https://www.facebook.com/bobone.bg"><i className="fab fa-facebook"></i></a></li>
+                            <li className="mb-2"><a href="https://twitter.com/PalashevNikolai"><i className="fab fa-twitter"></i></a></li>
+                            <li className="mb-2"><a href="https://www.linkedin.com/in/nikolai-palashev-462169266/"><i className="fab fa-linkedin"></i></a></li>
+
                         </ul>
-                        <a href="#" className="tm-text-gray text-right d-block mb-2">Terms of Use</a>
-                        <a href="#" className="tm-text-gray text-right d-block">Privacy Policy</a>
+                        {/* <a href="#" className="tm-text-gray text-right d-block mb-2">Terms of Use</a>
+                        <a href="#" className="tm-text-gray text-right d-block">Privacy Policy</a> */}
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-8 col-md-7 col-12 px-5 mb-3">
+                    <div className="text-center">
                         Copyright 2023 Nikolai Palashev. All rights reserved.
                     </div>
-                    <div className="col-lg-4 col-md-5 col-12 px-5 text-right">
-                        Designed by <a href="https://templatemo.com" className="tm-text-gray" rel="sponsored" target="_parent">TemplateMo</a>
-                    </div>
+
                 </div>
             </div>
         </footer>

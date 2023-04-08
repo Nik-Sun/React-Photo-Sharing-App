@@ -16,9 +16,15 @@ export const addLike = async (photoId) => {
     return response;
 };
 
-export const getAllLikes = async (photoId) => {
+export const getAllLikesById = async (photoId) => {
 
     let response = await request.get(endpoints.count(photoId) + '&count');
+    return response;
+}
+
+export const getAllLikes = async () => {
+
+    let response = await request.get(endpoints.all);
     return response;
 }
 

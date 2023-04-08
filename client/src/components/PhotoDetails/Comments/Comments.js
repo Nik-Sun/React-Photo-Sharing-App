@@ -54,7 +54,7 @@ export const Comments = ({ photoId, isAuthenticated }) => {
                             <p>{c.comment}</p>
                             <span className={styles.commentAuthor}>{c.author}</span>
                         </div>)
-                        : <div className={styles.commentItem}>
+                        : <div className={styles.noComments}>
                             <p>No one commented on this image yet!</p>
 
                         </div>

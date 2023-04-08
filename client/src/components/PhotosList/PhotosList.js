@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getAll, search } from '../../services/imageService';
 import { Link, useSearchParams } from 'react-router-dom';
-
+import { useAuthForm } from '../../hooks/useAuthForm';
 
 
 export const PhotosList = () => {
 
-
+    const dateOptions = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+    };
     const [searchParams, setSearchParams] = useSearchParams();
-
+    const { formValues, onFormChange } = useAuthForm();
     const [pageImages, setPageImages] = useState([]);
     const [page, setPage] = useState({
         max: 1,
@@ -16,19 +22,16 @@ export const PhotosList = () => {
     });
 
 
-    // useEffect(() => {
-    //     getAll()
-    //         .then(data => setPageImages(data))
-    // }, []);
-
+    const pageInput = useRef();
     useEffect(() => {
         console.log('useEffect fire!!!');
         const searchQuery = searchParams.get('search');
         const pageQuery = Number(searchParams.get('page'));
 
         const pageNum = pageQuery ? pageQuery : 1;
-        console.log(pageNum);
+        console.log(searchQuery, pageNum);
         if (searchQuery) {
+            console.log('in search');
             search(searchQuery, pageNum)
                 .then(data => {
                     setPage({
@@ -40,30 +43,58 @@ export const PhotosList = () => {
         } else {
             getAll(pageNum)
                 .then(data => {
+
                     setPage({
                         max: Math.ceil(data.count / 8),
                         current: pageNum
                     });
                     setPageImages(data.response)
-                });
+                }).catch(err => console.log(err));
         }
 
 
     }, [searchParams]);
 
 
-    const onNextPageClick = () => {
+
+    const onChangePageClick = (e) => {
+        const btnName = e.target.name;
         const pageQuery = Number(searchParams.get('page'));
         const searhQuery = searchParams.get('search');
 
         const pageNum = pageQuery ? pageQuery : 1;
-        const newPage = pageNum + 1;
-        const newParams = {
-            'search': searhQuery,
-            'page': newPage
+        let newPage = pageNum;
+
+        btnName === 'next' ? newPage++ : newPage--;
+
+        let newParams = {
+            page: newPage,
+        };
+        if (searhQuery) {
+            newParams.search = searhQuery;
         }
+
         setSearchParams(newParams)
 
+    };
+
+    const onPageSubmit = (e) => {
+        e.preventDefault();
+
+        const searhQuery = searchParams.get('search');
+
+        const pageNum = pageInput.current.value;
+        console.log(pageNum)
+        let newPage = pageNum;
+
+        let newParams = {
+            page: newPage,
+        };
+        if (searhQuery) {
+            newParams.search = searhQuery;
+        }
+
+        setSearchParams(newParams);
     };
 
     return (
@@ -85,27 +116,46 @@ export const PhotosList = () => {
                             </figcaption>
                         </figure>
                         <div className="d-flex justify-content-between tm-text-gray">
-                            <span className="tm-text-gray-light">{i.created_at}</span>
-                            <span>9,906 views</span>
+                            <span className="tm-text-gray-light">Added on {new Date(i._createdOn).toLocaleString('en-GB', dateOptions)}</span>
+                            <span>Likes: {i.likes ? i.likes : 0} </span>
                         </div>
                     </div>
                 ))}
             </div>
             <div className="row tm-mb-90">
                 <div className="col-12 d-flex justify-content-between align-items-center tm-paging-col">
-                    {page.current > 1
-                        ? <button className="btn btn-primary tm-btn-prev mb-2">Previous</button>
-                        : <button className="btn btn-primary tm-btn-prev mb-2 disabled">Previous</button>}
 
+                    {page.current > 1
+                        ? <button name='previous' onClick={onChangePageClick} className="btn btn-primary tm-btn-prev mb-2">Previous</button>
+                        : <button className="btn btn-primary tm-btn-prev mb-2 disabled">Previous</button>}
                     {/* <div className="tm-paging d-flex">
-                        <a className="active tm-paging-link">1</a>
-                        <a className="tm-paging-link">2</a>
-                        <a className="tm-paging-link">3</a>
-                        <a className="tm-paging-link">4</a>
+                        {page.current > 1
+                            ? <>
+                                <Link to={`/photos/?page=${page.current - 1}`} className="tm-paging-link">{page.current - 1}</Link>
+                                <Link className="active tm-paging-link">{page.current}</Link>
+                                {page.max > page.current &&
+                                    <Link to={`/photos/?page=${page.current + 1}`} className="tm-paging-link">{page.current + 1}</Link>
+
+                                }
+                            </>
+                            : <>
+                                <a className="active tm-paging-link">{page.current}</a>
+                                {page.max > page.current &&
+                                    <a className="tm-paging-link">{page.current + 1}</a>
+
+                                }
+                            </>
+                        }
+
                     </div> */}
+                    <form onSubmit={onPageSubmit} class="tm-text-primary">
+                        Page <input ref={pageInput} type="text" defaultValue={page.current} size="1" class="tm-input-paging tm-text-primary" /> of {page.max}
+                    </form>
+
+
                     {page.current === page.max
                         ? <button className="btn btn-primary tm-btn-next disabled">Next Page</button>
-                        : <button onClick={onNextPageClick} className="btn btn-primary tm-btn-next">Next Page</button>}
+                        : <button name='next' onClick={onChangePageClick} className="btn btn-primary tm-btn-next">Next Page</button>}
 
 
                 </div>

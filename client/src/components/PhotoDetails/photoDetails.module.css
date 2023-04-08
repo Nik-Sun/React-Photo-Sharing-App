@@ -112,6 +112,11 @@
     font-style: italic;
 }
 
+.noComments {
+    align-self: center;
+    font-size: 26px;
+}
+
 .likeBtn {
     border-radius: 5px;
     background-color: #009999;

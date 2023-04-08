@@ -1,16 +1,19 @@
 import { uploadFile } from '../utils/uploadFile'
 import * as request from '../utils/request'
+import { getAllLikes } from './likeService';
 
 const baseUrl = 'http://localhost:3030/data/images';
 const viewsUrl = 'http://localhost:3030/jsonstore/views';
 
 const endpoints = {
     all: '/data/images',
-    single: (id) => `/data/images/${id}`,
+    single: (id) => `/data/images/${id}?load=uploadedBy%3D_ownerId%3Ausers`,
     searchPaged: (query, offset) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&offset=${offset}&pageSize=8`,
     allPaged: (offset) => `/data/images?offset=${offset}&pageSize=8`,
     searchCount: (query) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&count`,
-    allCount: '/data/images?count'
+    allCount: '/data/images?count',
+    related: (tags) => baseUrl + `?where=tags%20LIKE%20%22${tags[0]}%22${tags.map(t => `%20OR%20tags%20LIKE%20%22${t}%22`).join('')}`,
+    allForUser: (id) => `/data/images?where=_ownerId%3D%22${id}%22`
 
 }
 
@@ -39,16 +42,19 @@ export const getAll = async (page = 1) => {
     if (page) {
         const response = await request.get(endpoints.allPaged((page * 8) - 8));
         const count = await request.get(endpoints.allCount);
-        console.log(count);
+        const likes = await getAllLikes();
+
+        for (const image of response) {
+            image.likes = likes.filter(l => l.liked === image._id).length;
+
+        }
+        console.log(response);
         return {
             response,
             count
         };
     }
-    // let response = await fetch(baseUrl);
-    // let data = await response.json();
 
-    // return Object.values(data);
 };
 
 export const getOne = async (id) => {
@@ -70,4 +76,15 @@ export const search = async (query, page) => {
         response,
         count
     }
+}
+
+export const getRelated = async (tags) => {
+    const tagsArray = tags.split(' ');
+    const response = await request.get(endpoints.related(tagsArray));
+    return response;
+}
+
+export const getAllForUser = async (userId) => {
+    const response = await request.get(endpoints.allForUser(userId));
+    return response;
 }
