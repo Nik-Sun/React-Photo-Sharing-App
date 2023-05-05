@@ -17,6 +17,7 @@ import { Error } from "./components/Error/Error";
 import { ErrorProvider } from "./contexts/ErrorContext";
 
 import styles from './public/css/loader.module.css'
+import { MyPhotos } from "./components/MyPhotos/MyPhotos";
 
 
 
@@ -53,8 +54,13 @@ function App() {
               <GuardedRoute>
                 <Upload />
               </GuardedRoute>
-            }>
-            </Route>
+            } />
+            <Route path={'/myPhotos'} element={
+              <GuardedRoute>
+                <MyPhotos />
+              </GuardedRoute>
+            }></Route>
+
             <Route path={'/register'} element={<Register />} />
             <Route path={'/login'} element={<Login />} />
             <Route path={'/photos/:photoId'} element={<PhotoDetail />} />

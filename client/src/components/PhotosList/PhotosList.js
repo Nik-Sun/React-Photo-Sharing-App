@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getAll, search } from '../../services/imageService';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useAuthForm } from '../../hooks/useAuthForm';
+
 
 
 export const PhotosList = () => {
@@ -13,8 +13,8 @@ export const PhotosList = () => {
         hour: '2-digit',
         minute: '2-digit',
     };
+
     const [searchParams, setSearchParams] = useSearchParams();
-    const { formValues, onFormChange } = useAuthForm();
     const [pageImages, setPageImages] = useState([]);
     const [page, setPage] = useState({
         max: 1,

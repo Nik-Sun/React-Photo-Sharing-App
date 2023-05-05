@@ -19,9 +19,9 @@ export const Footer = () => {
                     </div> */}
                     <div className="col-md-6">
                         <ul className="tm-social-links d-flex justify-content-end pl-0 mb-5">
-                            <li className="mb-2"><a href="https://www.facebook.com/bobone.bg"><i className="fab fa-facebook"></i></a></li>
-                            <li className="mb-2"><a href="https://twitter.com/PalashevNikolai"><i className="fab fa-twitter"></i></a></li>
-                            <li className="mb-2"><a href="https://www.linkedin.com/in/nikolai-palashev-462169266/"><i className="fab fa-linkedin"></i></a></li>
+                            <li className="mb-2"><a href="https://www.facebook.com/bobone.bg" target="_blank"><i className="fab fa-facebook"></i></a></li>
+                            <li className="mb-2"><a href="https://twitter.com/PalashevNikolai" target="_blank"><i className="fab fa-twitter"></i></a></li>
+                            <li className="mb-2"><a href="https://www.linkedin.com/in/nikolai-palashev-462169266/" target="_blank"><i className="fab fa-linkedin"></i></a></li>
 
                         </ul>
                         {/* <a href="#" className="tm-text-gray text-right d-block mb-2">Terms of Use</a>

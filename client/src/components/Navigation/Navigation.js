@@ -17,7 +17,7 @@ export const Navigation = () => {
             <div className="container-fluid">
                 <Link className="navbar-brand" to={'/'}>
                     <i className="fas fa-film mr-2"></i>
-                    Catalog-Z
+                    Photo Sharing App
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fas fa-bars"></i>
@@ -39,6 +39,9 @@ export const Navigation = () => {
                             <>
                                 <li className="nav-item">
                                     <NavLink className={({ isActive }) => isActive ? 'nav-link nav-link-1 active' : 'nav-link nav-link-1'} to={'/upload'}>Upload Photo</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className={({ isActive }) => isActive ? 'nav-link nav-link-1 active' : 'nav-link nav-link-1'} to={'/myPhotos'}>My Photos</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <Link onClick={onLogout} className='nav-link nav-link-1'>Logout</Link>

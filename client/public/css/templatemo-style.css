@@ -505,7 +505,8 @@ figure.effect-ming figcaption::before {
     transform: scale3d(1.4, 1.4, 1);
 }
 
-figure.effect-ming h2 {
+figure.effect-ming h2,
+figure.effect-ming button {
     font-size: 1.3em;
     opacity: 0;
     -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
@@ -514,8 +515,17 @@ figure.effect-ming h2 {
     transform: scale(1.5);
 }
 
+figure.effect-ming button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 12px;
+    z-index: 1000;
+}
+
 figure.effect-ming:hover figcaption::before,
-figure.effect-ming:hover h2 {
+figure.effect-ming:hover h2,
+figure.effect-ming:hover button {
     opacity: 1;
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
