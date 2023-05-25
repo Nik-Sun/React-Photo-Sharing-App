@@ -5,6 +5,9 @@ import { useFileForm } from '../../hooks/useFileForm';
 import { useAuthForm } from '../../hooks/useAuthForm';
 import { useValidateForm } from '../../hooks/useValidateForm';
 import { create } from '../../services/imageService';
+
+import styles from './upload.module.css'
+
 export const Upload = () => {
     const navigate = useNavigate();
 
@@ -13,7 +16,10 @@ export const Upload = () => {
         fileErrors,
         preview,
         onFileChange,
-        file
+        file,
+        autoTags,
+        imageLoading,
+        setAutoTags
     } = useFileForm();
 
     const [tags, setTags] = useState({
@@ -25,7 +31,11 @@ export const Upload = () => {
     const [spinner, setSpinner] = useState(false);
     const { errors, isFormValid, onBlur } = useValidateForm({ ...formValues });
 
-
+    const onSuggestedTagClick = (index) => {
+        const newTags = autoTags.filter((x, i) => i !== index);
+        setAutoTags(newTags)
+        setTags(tags => ({ ...tags, added: [...tags.added, autoTags[index]] }))
+    }
 
     const removeTag = (index) => {
         const newTags = tags.added.filter((x, i) => i !== index);
@@ -76,6 +86,8 @@ export const Upload = () => {
         }
     }
 
+
+
     return (
 
 
@@ -94,7 +106,21 @@ export const Upload = () => {
                         <span className='text-danger'>{errors.title.errorMsg}</span>
                     </div>
 
+                    {preview && <div className="form-group">
+                        <label>Suggested Tags:</label>
+                        <div className="tags-input-container form-control rounded-0">
+                            {autoTags.length > 0 ?
+                                autoTags.map((t, i) => (
 
+                                    <div onClick={() => onSuggestedTagClick(i)} key={i} className={styles.tagItemSuggested}>
+                                        <span className="text">{t}</span>
+                                    </div>
+
+                                )) : 'Suggested tags...'}
+
+                        </div>
+                        <span className='text-danger'>{ }</span>
+                    </div>}
                     <div className="form-group">
                         <div className="tags-input-container form-control rounded-0">
                             {tags.added.length > 0 ?
@@ -117,26 +143,33 @@ export const Upload = () => {
 
 
                     <div className="form-group tm-text-right">
-                        {spinner ? <div class="lds-dual-ring"></div> : <button type="submit" className="btn btn-primary">Upload</button>}
+                        {spinner ? <div className="lds-dual-ring"></div> : <button type="submit" className="btn btn-primary">Upload</button>}
                     </div>
                 </form>
 
             </div>
             <div className="col-lg-8 col-12 mt-5">
                 <h2 className="tm-text-primary mb-5">Image preview</h2>
+
                 <div className='img-preview-container' >
-                    {fileErrors.length > 0
-                        ? fileErrors.map((err, i) => <p key={i} className='text-danger'>{err}</p>)
-                        : preview === ''
-                            ? <>
-                                <p>No image chosen yet.Choose an image... </p>
-                                <p>Allowed types are: .JPG .JPEG .PNG </p>
-                                <p>Maximum file size 5MB </p>
-                            </>
+                    {imageLoading ? <span className={styles.loader}></span>
+                        : <>
+                            {fileErrors.length > 0
+                                ? fileErrors.map((err, i) => <p key={i} className='text-danger'>{err}</p>)
+                                : preview === ''
+                                    ? <>
+                                        <p>No image chosen yet.Choose an image... </p>
+                                        <p>Allowed types are: .JPG .JPEG .PNG </p>
+                                        <p>Maximum file size 5MB </p>
+                                    </>
 
-                            : <img className="img-preview" src={preview} alt="" />}
+                                    : <img className="img-preview" src={preview} alt="" />}
 
+                        </>
+                    }
                 </div>
+
+
             </div>
         </div>
 

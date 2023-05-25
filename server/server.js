@@ -471,6 +471,7 @@
     }
 
     function parseWhere(query) {
+
         const operators = {
             '<=': (prop, value) => record => record[prop] <= JSON.parse(value),
             '<': (prop, value) => record => record[prop] < JSON.parse(value),

@@ -23,6 +23,7 @@ export const Login = () => {
                 await loginUser(formValues.email, formValues.password);
                 navigate('/')
             } catch (error) {
+                console.log(error);
                 alert(error)
             }
 

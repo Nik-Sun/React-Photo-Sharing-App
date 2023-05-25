@@ -10,13 +10,28 @@ export const useFileForm = () => {
     const [preview, setPreview] = useState('');
     const [file, setFile] = useState(null);
     const [fileErrors, setFileErrors] = useState([]);
+    const [autoTags, setAutoTags] = useState([]);
+    const [imageLoading, setImageLoading] = useState(false);
 
 
     useEffect(() => {
         let url;
         if (file) {
-            url = URL.createObjectURL(file);
-            setPreview(url);
+            var formData = new FormData();
+            formData.append('image', file)
+            fetch('https://localhost:7127/api/tags', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setAutoTags(data)
+                    url = URL.createObjectURL(file)
+                    setPreview(url);
+                    setImageLoading(false);
+                })
+
+
         }
         return () => URL.revokeObjectURL(url);
     }, [file]);
@@ -24,12 +39,14 @@ export const useFileForm = () => {
 
 
     const onFileChange = (e) => {
+        setImageLoading(true);
         const previewFile = e.target.files[0];
         let errors = validateFile(previewFile);
         setFileErrors(errors);
-        console.log(errors);
         if (errors.length === 0) {
             setFile(previewFile);
+        } else {
+            setImageLoading(false)
         }
     };
 
@@ -38,6 +55,9 @@ export const useFileForm = () => {
         fileErrors,
         preview,
         onFileChange,
-        file
+        file,
+        autoTags,
+        setAutoTags,
+        imageLoading,
     };
 }

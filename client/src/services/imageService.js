@@ -39,21 +39,21 @@ export const create = async (file, titleInput, tagsInput) => {
 };
 
 export const getAll = async (page = 1) => {
-    if (page) {
-        const response = await request.get(endpoints.allPaged((page * 8) - 8));
-        const count = await request.get(endpoints.allCount);
-        const likes = await getAllLikes();
 
-        for (const image of response) {
-            image.likes = likes.filter(l => l.liked === image._id).length;
+    const response = await request.get(endpoints.allPaged((page * 8) - 8));
+    const count = await request.get(endpoints.allCount);
+    const likes = await getAllLikes();
 
-        }
-        console.log(response);
-        return {
-            response,
-            count
-        };
+    for (const image of response) {
+        image.likes = likes.filter(l => l.liked === image._id).length;
+
     }
+    console.log(response);
+    return {
+        response,
+        count
+    };
+
 
 };
 

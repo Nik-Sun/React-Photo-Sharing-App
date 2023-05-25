@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
             console.log('login fired');
         } catch (error) {
             console.log('login fired with error');
-            throw error.message;
+            throw error.description;
         }
 
     };

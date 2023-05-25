@@ -83,6 +83,7 @@ export const PhotoDetail = () => {
                     <div className="tm-bg-gray tm-video-details">
                         <div className={styles.details}>
                             <p>Uploaded by {photo.uploadedBy.email}</p>
+                            <p>Size {(photo.bytes / 1024 / 1024).toFixed(2)} MB</p>
 
                             <p className={styles.likeCount}> <i className="fas fa-heart"></i>: {likes.count}</p>
                         </div>

@@ -24,14 +24,11 @@ export const PhotosList = () => {
 
     const pageInput = useRef();
     useEffect(() => {
-        console.log('useEffect fire!!!');
         const searchQuery = searchParams.get('search');
         const pageQuery = Number(searchParams.get('page'));
 
         const pageNum = pageQuery ? pageQuery : 1;
-        console.log(searchQuery, pageNum);
         if (searchQuery) {
-            console.log('in search');
             search(searchQuery, pageNum)
                 .then(data => {
                     setPage({
