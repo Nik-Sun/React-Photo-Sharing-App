@@ -5,7 +5,7 @@ export const Footer = () => {
             <div className="container-fluid tm-container-small">
                 <div className="row">
                     <div className="col-lg-6 col-md-12 col-12 px-5 mb-5">
-                        <h3 className="tm-text-primary mb-4 tm-footer-title">About Catalog-Z</h3>
+                        <h3 className="tm-text-primary mb-4 tm-footer-title">About This App</h3>
                         <p>This is a photo sharing and downloading app, created as project defence work for the React/JS course @ Softuni. This app is designed to cater to photo enthusiasts of all levels and provides an easy-to-use platform for sharing, downloading, and browsing high-quality images.</p>
                     </div>
                     {/* <div className="col-lg-3 col-md-6 col-sm-6 col-12 px-5 mb-5">

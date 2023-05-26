@@ -45,7 +45,7 @@ export const PhotosList = () => {
                         max: Math.ceil(data.count / 8),
                         current: pageNum
                     });
-                    setPageImages(data.response)
+                    setPageImages(data.images)
                 }).catch(err => console.log(err));
         }
 
@@ -113,7 +113,7 @@ export const PhotosList = () => {
                             </figcaption>
                         </figure>
                         <div className="d-flex justify-content-between tm-text-gray">
-                            <span className="tm-text-gray-light">Added on {new Date(i._createdOn).toLocaleString('en-GB', dateOptions)}</span>
+                            <span className="tm-text-gray-light">Added on {new Date(i.createdOn).toDateString()}</span>
                             <span>Likes: {i.likes ? i.likes : 0} </span>
                         </div>
                     </div>

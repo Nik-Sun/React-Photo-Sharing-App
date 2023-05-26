@@ -1,8 +1,8 @@
-const baseUrl = 'http://localhost:3030';
+const baseUrl = 'https://localhost:7127/api';
 
 async function request(method, target, data) {
 
-    let targetUrl = target.startsWith('http') ? target : baseUrl + target;
+    let targetUrl = baseUrl + target;
 
     let options = {
         method,

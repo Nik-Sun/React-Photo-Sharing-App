@@ -6,10 +6,10 @@ const baseUrl = 'http://localhost:3030/data/images';
 const viewsUrl = 'http://localhost:3030/jsonstore/views';
 
 const endpoints = {
-    all: '/data/images',
+    all: '/images',
     single: (id) => `/data/images/${id}?load=uploadedBy%3D_ownerId%3Ausers`,
     searchPaged: (query, offset) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&offset=${offset}&pageSize=8`,
-    allPaged: (offset) => `/data/images?offset=${offset}&pageSize=8`,
+    allPaged: (page) => `/images/?page=${page}`,
     searchCount: (query) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&count`,
     allCount: '/data/images?count',
     related: (tags) => baseUrl + `?where=tags%20LIKE%20%22${tags[0]}%22${tags.map(t => `%20OR%20tags%20LIKE%20%22${t}%22`).join('')}`,
@@ -40,19 +40,18 @@ export const create = async (file, titleInput, tagsInput) => {
 
 export const getAll = async (page = 1) => {
 
-    const response = await request.get(endpoints.allPaged((page * 8) - 8));
-    const count = await request.get(endpoints.allCount);
-    const likes = await getAllLikes();
+    const response = await request.get(endpoints.allPaged(page));
 
-    for (const image of response) {
-        image.likes = likes.filter(l => l.liked === image._id).length;
+    // const likes = await getAllLikes();
 
-    }
-    console.log(response);
+    // for (const image of response) {
+    //     image.likes = likes.filter(l => l.liked === image._id).length;
+
+    // }
     return {
-        response,
-        count
-    };
+        ...response
+    }
+
 
 
 };
