@@ -13,10 +13,7 @@ export const PhotoDetail = () => {
     const navigate = useNavigate();
     const { isOwner, isAuthenticated } = useContext(AuthContext);
     const { photoId } = useParams();
-    const [photo, setPhoto] = useState({
-        uploadedBy: {},
-        tags: ''
-    });
+    const [photo, setPhoto] = useState({});
     const [dialog, setDialog] = useState(false);
     const [likes, setLikes] = useState({
         count: 0,
@@ -44,13 +41,13 @@ export const PhotoDetail = () => {
 
         Promise.all([
             getOne(photoId),
-            getAllLikesById(photoId),
-            getMyLike(photoId),
+            // getAllLikesById(photoId),
+            // getMyLike(photoId),
         ])
             .then(([p, l, ml]) => {
                 setPhoto(p)
-                setLikes({ count: l, myLike: ml })
-                console.log(isOwner(photoId));
+                // setLikes({ count: l, myLike: ml })
+                // console.log(isOwner(photoId));
             }).catch(err => {
                 navigate('/');
             })
@@ -82,15 +79,15 @@ export const PhotoDetail = () => {
                 <div className="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                     <div className="tm-bg-gray tm-video-details">
                         <div className={styles.details}>
-                            <p>Uploaded by {photo.uploadedBy.email}</p>
+                            <p>Uploaded by {photo.uploadedBy}</p>
                             <p>Size {(photo.bytes / 1024 / 1024).toFixed(2)} MB</p>
 
-                            <p className={styles.likeCount}> <i className="fas fa-heart"></i>: {likes.count}</p>
+                            {/* <p className={styles.likeCount}> <i className="fas fa-heart"></i>: {likes.count}</p> */}
                         </div>
                         {isAuthenticated &&
                             <div className={styles.likeBtnContainer}>
-                                <Link to={photo.downloadUrl} target="_blank" download className={styles.likeBtn}>Download</Link>
-                                {isOwner(photo._ownerId) === false
+                                <Link to={photo.downloadUrl} target='_blank' download className={styles.likeBtn}>Download</Link>
+                                {/* {isOwner(photo._ownerId) === false
                                     ? <>
                                         {likes.myLike._ownerId
                                             ? <button onClick={onLikeRemoveClick} className={styles.likeBtn}>Remove <i className="far fa-heart"></i></button>
@@ -98,13 +95,13 @@ export const PhotoDetail = () => {
                                     </>
                                     : <></>
 
-                                }
+                                } */}
 
                             </div>
 
                         }
 
-                        {isAuthenticated && isOwner(photo._ownerId)
+                        {isAuthenticated && isOwner(photo.ownerId)
                             ? <>
                                 {dialog
                                     ? <div className={styles.modal}>
@@ -154,9 +151,9 @@ export const PhotoDetail = () => {
                 </div>
 
             </div>
-
+            {/* 
             <Comments photoId={photoId} isAuthenticated={isAuthenticated} />
-            <RelatedPhotos tags={photo.tags} photoId={photoId} />
+            <RelatedPhotos tags={photo.tags} photoId={photoId} /> */}
 
         </div>
     )

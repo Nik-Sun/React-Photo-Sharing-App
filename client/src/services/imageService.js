@@ -7,7 +7,7 @@ const viewsUrl = 'http://localhost:3030/jsonstore/views';
 
 const endpoints = {
     all: '/images',
-    single: (id) => `/data/images/${id}?load=uploadedBy%3D_ownerId%3Ausers`,
+    single: (id) => `/images/${id}`,
     searchPaged: (query, offset) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&offset=${offset}&pageSize=8`,
     allPaged: (page) => `/images/?page=${page}`,
     searchCount: (query) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&count`,
@@ -41,19 +41,9 @@ export const create = async (file, titleInput, tagsInput) => {
 export const getAll = async (page = 1) => {
 
     const response = await request.get(endpoints.allPaged(page));
-
-    // const likes = await getAllLikes();
-
-    // for (const image of response) {
-    //     image.likes = likes.filter(l => l.liked === image._id).length;
-
-    // }
     return {
         ...response
     }
-
-
-
 };
 
 export const getOne = async (id) => {

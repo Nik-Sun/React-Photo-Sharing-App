@@ -28,20 +28,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logoutUser = async () => {
-        try {
-            await userService.logout();
-        } catch (error) {
-            throw error.message;
-        } finally {
-            setLocalStorage({});
-        }
-
-
+        setLocalStorage({});
     };
 
     const isOwner = (ownerId) => {
-        const currentUserId = user._id;
-        console.log(ownerId === currentUserId)
+        const currentUserId = user.id;
+        console.log(currentUserId)
+        console.log(ownerId)
         if (ownerId !== currentUserId) {
             return false;
         }
