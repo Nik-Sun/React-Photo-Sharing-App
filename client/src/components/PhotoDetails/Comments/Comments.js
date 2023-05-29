@@ -50,8 +50,8 @@ export const Comments = ({ photoId, isAuthenticated }) => {
 
 
                     {comments.length > 0 ?
-                        comments.map(c => <div className={styles.commentItem}>
-                            <p>{c.comment}</p>
+                        comments.map(c => <div key={c.id} className={styles.commentItem}>
+                            <p>{c.content}</p>
                             <span className={styles.commentAuthor}>{c.author}</span>
                         </div>)
                         : <div className={styles.noComments}>

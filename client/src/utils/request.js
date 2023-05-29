@@ -23,7 +23,7 @@ async function request(method, target, data) {
 
     if (user && user !== '{}') {
         let accessToken = JSON.parse(user).accessToken
-        options.headers['X-Authorization'] = accessToken;
+        options.headers['Authorization'] = 'Bearer ' + accessToken;
     }
     try {
         let response = await fetch(targetUrl, options);

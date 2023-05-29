@@ -151,8 +151,8 @@ export const PhotoDetail = () => {
                 </div>
 
             </div>
-            {/* 
             <Comments photoId={photoId} isAuthenticated={isAuthenticated} />
+            {/* 
             <RelatedPhotos tags={photo.tags} photoId={photoId} /> */}
 
         </div>
