@@ -11,8 +11,8 @@ const reigister = async (username, email, password) => {
     let user = await request.post(endPoints.register, { username, email, password });
     return user;
 };
-const login = async (email, password) => {
-    let user = await request.post(endPoints.login, { email, password });
+const login = async (email, password, rememberMe) => {
+    let user = await request.post(endPoints.login, { email, password, rememberMe });
     return user;
 };
 // const login = async (email, password) => {

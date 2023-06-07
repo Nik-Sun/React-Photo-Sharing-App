@@ -1,5 +1,7 @@
-import { useState } from 'react'
 
+import { useContext } from 'react';
+
+import { ToastContext } from '../contexts/ToastContext';
 import {
     emailValidator as email,
     passwordValidator as password,
@@ -10,6 +12,7 @@ import {
 } from '../utils/validation/validator';
 
 export const useValidateForm = (formValues) => {
+    const { toast, Toaster } = useContext(ToastContext);
 
     const initialErrors = {};
     Object.keys(formValues).forEach(k => {
@@ -19,38 +22,7 @@ export const useValidateForm = (formValues) => {
             isTouched: false
         }
     })
-    // const initialErrors = {
-    //     email: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    //     password: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    //     confirmPassword: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    //     tags: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    //     title: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    //     username: {
-    //         isValid: false,
-    //         errorMsg: '',
-    //         isTouched: false
-    //     },
-    // };
+
 
     const validator = {
         email,
@@ -61,7 +33,6 @@ export const useValidateForm = (formValues) => {
         comment
     }
 
-    const [errors, setErrors] = useState(initialErrors);
 
 
 
@@ -76,6 +47,7 @@ export const useValidateForm = (formValues) => {
             : validator[fieldName](value);
 
         if (result) {
+            toast.error(result);
             errorsCopy[fieldName].isValid = false;
             errorsCopy[fieldName].errorMsg = result;
             isValid = false;
@@ -84,7 +56,7 @@ export const useValidateForm = (formValues) => {
             errorsCopy[fieldName].isValid = true;
             errorsCopy[fieldName].errorMsg = '';
         }
-        setErrors(errorsCopy);
+
         return isValid;
 
     }
@@ -93,23 +65,22 @@ export const useValidateForm = (formValues) => {
 
 
     const onBlur = (e) => {
+
         const fieldName = e.target.name;
 
 
-        if (errors[fieldName].isTouched === false) {
+        if (initialErrors[fieldName].isTouched === false) {
             const updatedErrors = {
-                ...errors,
+                ...initialErrors,
                 [fieldName]: {
-                    ...errors[fieldName], isTouched: true
+                    ...initialErrors[fieldName], isTouched: true
                 }
             }
             validateField(updatedErrors, fieldName);
         }
         else {
-            validateField(errors, fieldName);
+            validateField(initialErrors, fieldName);
         }
-
-
 
     };
 
@@ -118,14 +89,15 @@ export const useValidateForm = (formValues) => {
         const formFields = Object.keys(formValues);
 
         for (const field of formFields) {
-            let isFieldValid = validateField(errors, field);
+            if (field === 'rememberMe') { continue; }
+            let isFieldValid = validateField(initialErrors, field);
             if (isFieldValid === false) return false;
         }
         return true;
     };
 
     return {
-        errors,
+        initialErrors,
         isFormValid,
         onBlur
     };

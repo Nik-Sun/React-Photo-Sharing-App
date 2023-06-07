@@ -6,6 +6,7 @@ async function request(method, target, data) {
 
     let options = {
         method,
+        credentials: 'include',
         headers: {}
     }
     if (data !== undefined) {

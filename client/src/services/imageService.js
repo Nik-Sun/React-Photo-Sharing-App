@@ -3,10 +3,10 @@ import * as request from '../utils/request'
 import { getAllLikes } from './likeService';
 
 const baseUrl = 'http://localhost:3030/data/images';
-const viewsUrl = 'http://localhost:3030/jsonstore/views';
 
 const endpoints = {
     all: '/images',
+    tags: '/tags',
     single: (id) => `/images/${id}`,
     searchPaged: (query, offset) => baseUrl + `?where=tags%20LIKE%20%22${query}%22&offset=${offset}&pageSize=8`,
     allPaged: (page) => `/images/?page=${page}`,
@@ -16,26 +16,18 @@ const endpoints = {
     allForUser: (id) => `/data/images?where=_ownerId%3D%22${id}%22`
 
 }
+export const autoTagging = async (imageFile) => {
+    var formData = new FormData();
+    formData.append('image', imageFile);
+    return await request.post(endpoints.tags, formData);
 
+}
 export const create = async (file, titleInput, tagsInput) => {
-    let data = await uploadFile(file);
-    data.title = titleInput;
-    data.tags = tagsInput;
-    const { title, url, bytes, tags, format, height, width } = data;
-    const newObj = {
-        title,
-        orgiginalUrl: url,
-        bytes,
-        tags,
-        format,
-        height,
-        width,
-        uploadedBy: JSON.parse(localStorage.getItem('user')).username
-    };
-    newObj.resizedUrl = data.eager[0].url;
-    newObj.downloadUrl = data.eager[1].url;
-
-    let response = await request.post(endpoints.all, newObj);
+    let formData = new FormData();
+    formData.append('imageFile', file);
+    formData.append('title', titleInput);
+    formData.append('tags', tagsInput);
+    let response = await request.post(endpoints.all, formData);
 };
 
 export const getAll = async (page = 1) => {

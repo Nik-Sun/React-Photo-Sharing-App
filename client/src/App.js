@@ -18,6 +18,7 @@ import { ErrorProvider } from "./contexts/ErrorContext";
 
 import styles from './public/css/loader.module.css'
 import { MyPhotos } from "./components/MyPhotos/MyPhotos";
+import { ToastProvider } from "./contexts/ToastContext";
 
 
 
@@ -38,37 +39,40 @@ function App() {
   }, [location])
   return (
     <div>
-      <AuthProvider>
-        <ErrorProvider >
-          <div className={transition ? styles.loaderWrapper : styles.loadedLoaderWrapper}>
-            <div className={transition ? styles.loader : styles.loadedLoader}></div>
-            <div className={transition ? styles.loaderSectionLeft : styles.loadedSectionLeft}></div>
-            <div className={transition ? styles.loaderSectionRight : styles.loadedSectionRight}></div>
-          </div >
-          <Navigation />
-          <Search />
-          <Routes>
-            <Route path={'/'} element={<Home />} />
-            <Route path={'/photos'} element={<PhotosList />} />
-            <Route path={'/upload'} element={
-              <GuardedRoute>
-                <Upload />
-              </GuardedRoute>
-            } />
-            <Route path={'/myPhotos'} element={
-              <GuardedRoute>
-                <MyPhotos />
-              </GuardedRoute>
-            }></Route>
+      <ToastProvider>
 
-            <Route path={'/register'} element={<Register />} />
-            <Route path={'/login'} element={<Login />} />
-            <Route path={'/photos/:photoId'} element={<PhotoDetail />} />
-            <Route path="/*" element={<Error />} />
-          </Routes>
-          <Footer />
-        </ErrorProvider>
-      </AuthProvider >
+        <AuthProvider>
+          <ErrorProvider >
+            <div className={transition ? styles.loaderWrapper : styles.loadedLoaderWrapper}>
+              <div className={transition ? styles.loader : styles.loadedLoader}></div>
+              <div className={transition ? styles.loaderSectionLeft : styles.loadedSectionLeft}></div>
+              <div className={transition ? styles.loaderSectionRight : styles.loadedSectionRight}></div>
+            </div >
+            <Navigation />
+            <Search />
+            <Routes>
+              <Route path={'/'} element={<Home />} />
+              <Route path={'/photos'} element={<PhotosList />} />
+              <Route path={'/upload'} element={
+                <GuardedRoute>
+                  <Upload />
+                </GuardedRoute>
+              } />
+              <Route path={'/myPhotos'} element={
+                <GuardedRoute>
+                  <MyPhotos />
+                </GuardedRoute>
+              }></Route>
+
+              <Route path={'/register'} element={<Register />} />
+              <Route path={'/login'} element={<Login />} />
+              <Route path={'/photos/:photoId'} element={<PhotoDetail />} />
+              <Route path="/*" element={<Error />} />
+            </Routes>
+            <Footer />
+          </ErrorProvider>
+        </AuthProvider >
+      </ToastProvider>
     </div >
   );
 }

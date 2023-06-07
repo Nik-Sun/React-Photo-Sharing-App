@@ -15,9 +15,9 @@ export const AuthProvider = ({ children }) => {
         setLocalStorage(createdUser);
     };
 
-    const loginUser = async (email, password) => {
+    const loginUser = async (email, password, rememberMe) => {
         try {
-            let loggedUser = await userService.login(email, password);
+            let loggedUser = await userService.login(email, password, rememberMe);
             setLocalStorage(loggedUser);
             console.log('login fired');
         } catch (error) {

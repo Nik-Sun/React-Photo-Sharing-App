@@ -40,6 +40,9 @@ const titleValidator = (title) => {
     if (!title) {
         return 'Title is required';
     }
+    if (title.length < 3) {
+        return 'Title is too short';
+    }
 };
 const usernameValidator = (username) => {
     if (!username) {

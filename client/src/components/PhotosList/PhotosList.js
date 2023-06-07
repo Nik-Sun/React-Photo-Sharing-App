@@ -146,7 +146,7 @@ export const PhotosList = () => {
 
                     </div> */}
                     <form onSubmit={onPageSubmit} class="tm-text-primary">
-                        Page <input ref={pageInput} type="text" defaultValue={page.current} size="1" class="tm-input-paging tm-text-primary" /> of {page.max}
+                        Page <input ref={pageInput} type="text" onChange={(e) => setPage(p => ({ ...p, current: e.target.value }))} value={page.current} size="1" class="tm-input-paging tm-text-primary" /> of {page.max}
                     </form>
 
 

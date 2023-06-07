@@ -11,7 +11,8 @@ export const Login = () => {
 
     const { formValues, onFormChange } = useAuthForm({
         email: '',
-        password: ''
+        password: '',
+        rememberMe: false
     });
     const { errors, isFormValid, onBlur } = useValidateForm(formValues);
 
@@ -20,7 +21,7 @@ export const Login = () => {
         const isValid = isFormValid();
         if (isValid) {
             try {
-                await loginUser(formValues.email, formValues.password);
+                await loginUser(formValues.email, formValues.password, formValues.rememberMe);
                 navigate('/')
             } catch (error) {
                 console.log(error);
@@ -59,6 +60,15 @@ export const Login = () => {
                         onBlur={onBlur}
                         onChange={onFormChange} />
                     <span className='text-danger'>{errors.password.errorMsg}</span>
+                </div>
+                <div className="form-group d-flex justify-content-between">
+                    <label className='tm-text-primary'>Remember me on this machine</label>
+                    <input
+                        className="rounded-0"
+                        value={formValues.rememberMe}
+                        type='checkbox'
+                        name="rememberMe"
+                        onChange={onFormChange} />
                 </div>
 
                 <div className="form-group tm-text-right">
