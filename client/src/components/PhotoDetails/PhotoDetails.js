@@ -4,10 +4,10 @@ import { useContext } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { getOne, getRelated, remove } from '../../services/imageService';
-import { addLike, getAllLikesById, getMyLike, removeLike } from '../../services/likeService'
-import styles from './photoDetails.module.css'
+import styles from './photoDetails.module.css';
 import { Comments } from './Comments/Comments';
 import { RelatedPhotos } from './RelatedPhotos/RelatedPhotos';
+import { Rating } from './Rating/Rating';
 
 export const PhotoDetail = () => {
     const navigate = useNavigate();
@@ -15,39 +15,17 @@ export const PhotoDetail = () => {
     const { photoId } = useParams();
     const [photo, setPhoto] = useState({});
     const [dialog, setDialog] = useState(false);
-    const [likes, setLikes] = useState({
-        count: 0,
-        myLike: {}
-    });
 
-    const onLikeAddClick = async () => {
-        const like = await addLike(photoId);
-        console.log(like)
-        setLikes(l => ({
-            count: l.count + 1,
-            myLike: like
-        }));
-    };
-
-    const onLikeRemoveClick = async () => {
-        await removeLike(likes.myLike._id);
-        setLikes(l => ({
-            count: l.count - 1,
-            myLike: {}
-        }));
-    }
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
 
         Promise.all([
             getOne(photoId),
-            // getAllLikesById(photoId),
-            // getMyLike(photoId),
         ])
-            .then(([p, l, ml]) => {
-                setPhoto(p)
-                // setLikes({ count: l, myLike: ml })
-                // console.log(isOwner(photoId));
+            .then(([photo]) => {
+                setPhoto(photo);
+                setRating(photo.rating)
             }).catch(err => {
                 navigate('/');
             })
@@ -62,6 +40,11 @@ export const PhotoDetail = () => {
     const onDeleteHandler = async () => {
         await remove(photoId);
         navigate('/photos')
+    }
+
+    const updateRating = (rating) => {
+
+        setRating(r => r + rating)
     }
 
 
@@ -81,22 +64,12 @@ export const PhotoDetail = () => {
                         <div className={styles.details}>
                             <p>Uploaded by {photo.uploadedBy}</p>
                             <p>Size {(photo.bytes / 1024 / 1024).toFixed(2)} MB</p>
-
-                            {/* <p className={styles.likeCount}> <i className="fas fa-heart"></i>: {likes.count}</p> */}
+                            <p>Rating: <span className={styles.rating}>{rating}</span></p>
                         </div>
                         {isAuthenticated &&
                             <div className={styles.likeBtnContainer}>
                                 <Link to={photo.downloadUrl} target='_blank' download className={styles.likeBtn}>Download</Link>
-                                {/* {isOwner(photo._ownerId) === false
-                                    ? <>
-                                        {likes.myLike._ownerId
-                                            ? <button onClick={onLikeRemoveClick} className={styles.likeBtn}>Remove <i className="far fa-heart"></i></button>
-                                            : <button onClick={onLikeAddClick} className={styles.likeBtn}>Add <i className="far fa-heart"></i></button>}
-                                    </>
-                                    : <></>
-
-                                } */}
-
+                                <Rating photoId={photoId} updateRating={updateRating} />
                             </div>
 
                         }

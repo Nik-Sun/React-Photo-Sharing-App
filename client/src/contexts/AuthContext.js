@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
 
     const createUser = async (username, email, password) => {
         let createdUser = await userService.reigister(username, email, password);
-        delete createdUser.password
         setLocalStorage(createdUser);
     };
 
@@ -26,6 +25,15 @@ export const AuthProvider = ({ children }) => {
         }
 
     };
+
+    const updateUser = (updatedAccessToken) => {
+        let userString = localStorage.getItem('user');
+        if (userString) {
+            let user = JSON.parse(userString);
+            user.accessToken = updatedAccessToken;
+            setLocalStorage(user);
+        }
+    }
 
     const logoutUser = async () => {
         setLocalStorage({});
@@ -45,9 +53,10 @@ export const AuthProvider = ({ children }) => {
         createUser,
         loginUser,
         logoutUser,
+        updateUser,
         username: user.username,
         email: user.email,
-        userId: user._id,
+        userId: user.id,
         isOwner,
         isAuthenticated: user.accessToken ? true : false
     };

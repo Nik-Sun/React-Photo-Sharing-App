@@ -15,10 +15,10 @@ import { GuardedRoute } from "./components/GuardedRoute/GuardedRoute";
 import { Error } from "./components/Error/Error";
 
 import { ErrorProvider } from "./contexts/ErrorContext";
-
 import styles from './public/css/loader.module.css'
 import { MyPhotos } from "./components/MyPhotos/MyPhotos";
 import { ToastProvider } from "./contexts/ToastContext";
+import { checkStatus } from "./services/userServise";
 
 
 
@@ -26,6 +26,9 @@ function App() {
   const location = useLocation();
 
   const [transition, setTransition] = useState(true);
+
+
+
   useEffect(() => {
     setTimeout(() => {
 

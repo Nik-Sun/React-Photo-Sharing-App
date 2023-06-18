@@ -1,12 +1,13 @@
 
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 
+import { AuthContext } from '../../contexts/AuthContext';
 import styles from '../../public/css/home.module.css';
 import video from '../../public/video/hero.mp4'
 
 export const Home = () => {
+
     const { isAuthenticated } = useContext(AuthContext);
 
 

@@ -45,7 +45,7 @@ export const useValidateForm = (formValues) => {
         const result = fieldName === 'confirmPassword'
             ? validator[fieldName](formValues.password, value)
             : validator[fieldName](value);
-
+        console.log(result);
         if (result) {
             toast.error(result);
             errorsCopy[fieldName].isValid = false;
@@ -84,22 +84,25 @@ export const useValidateForm = (formValues) => {
 
     };
 
-    const isFormValid = () => {
+    const validateForm = () => {
 
         const formFields = Object.keys(formValues);
-
+        const result = [];
         for (const field of formFields) {
             if (field === 'rememberMe') { continue; }
             let isFieldValid = validateField(initialErrors, field);
-            if (isFieldValid === false) return false;
+            if (isFieldValid === false) {
+                result.push(false);
+            } else { result.push(true) };
         }
-        return true;
+        return result.includes(false) === false;
     };
 
     return {
         initialErrors,
-        isFormValid,
-        onBlur
+        validateForm,
+        onBlur,
+        Toaster
     };
 
 };

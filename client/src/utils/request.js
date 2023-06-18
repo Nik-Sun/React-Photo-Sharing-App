@@ -28,7 +28,9 @@ async function request(method, target, data) {
     }
     try {
         let response = await fetch(targetUrl, options);
-        if (response.ok === false) {
+        if (response.status === 401) {
+            throw new Error(response.statusText);
+        } else if (response.ok === false) {
             let error = await response.json();
             throw error;
         }
@@ -38,7 +40,6 @@ async function request(method, target, data) {
             return response.json();
         }
     } catch (error) {
-        console.log(error.message)
         throw error;
     }
 }

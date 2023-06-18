@@ -4,9 +4,9 @@ const endPoints = {
     register: '/users/register',
     //login: 'https://localhost:7127/api/users/login',
     login: '/users/login',
-    logout: '/users/logout'
+    logout: '/users/logout',
+    status: '/users/status'
 };
-
 const reigister = async (username, email, password) => {
     let user = await request.post(endPoints.register, { username, email, password });
     return user;
@@ -36,9 +36,19 @@ const logout = async () => {
     return user;
 }
 
+const checkStatus = async () => {
+    try {
+        let response = await request.get(endPoints.status);
+        return response;
+    } catch (error) {
+        return null;
+    }
+
+}
 
 export {
     reigister,
     login,
-    logout
+    logout,
+    checkStatus
 }

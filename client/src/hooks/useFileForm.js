@@ -19,14 +19,15 @@ export const useFileForm = () => {
     useEffect(() => {
         let url;
         if (file) {
-            setImageLoading(true);
+            ;
             setAutoTags([]);
             autoTagging(file).then(data => {
                 let url = URL.createObjectURL(file);
                 setPreview(url);
+                setImageLoading(false)
                 setAutoTags(data);
             }).catch(err => toast.error(err.title))
-                .finally(setImageLoading(false));
+                ;
 
 
         }

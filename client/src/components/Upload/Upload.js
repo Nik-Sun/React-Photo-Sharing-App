@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 import { useFileForm } from '../../hooks/useFileForm';
@@ -28,7 +28,7 @@ export const Upload = () => {
 
 
     const [spinner, setSpinner] = useState(false);
-    const { isFormValid } = useValidateForm({ ...formValues });
+    const { validateForm } = useValidateForm({ ...formValues });
 
 
 
@@ -61,7 +61,7 @@ export const Upload = () => {
 
     async function submitHandler(e) {
         e.preventDefault();
-        const validForm = isFormValid();
+        const validForm = validateForm();
         const validPreviewAndTags = validateOnSubmit();
 
         if (validForm && validPreviewAndTags) {
@@ -172,9 +172,10 @@ export const Upload = () => {
 
                         </>
                     }
+
                 </div>
 
-
+                <p className="tm-text-primary mb-5">Powered by <Link to={'https://www.imagga.com'}>Imagga</Link></p>
             </div>
         </div>
 

@@ -17,8 +17,8 @@ export const MyPhotos = () => {
         getAllForUser(userId)
             .then(data => {
 
-                setMyPhotos(data)
-                console.log(data.length);
+                setMyPhotos(data.images)
+                console.log(data.images.length);
             })
             .catch(err => console.log(err))
 

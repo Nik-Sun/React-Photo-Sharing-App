@@ -147,3 +147,17 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+.paragraph {
+    margin-top: 1rem;
+}
+
+.rating {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 300;
+    border-radius: 5px;
+    border: 1px solid #009999;
+    background-color: #EEEEEE;
+    padding: 6px 10px;
+    color: black
+}

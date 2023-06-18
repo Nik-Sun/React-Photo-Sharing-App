@@ -6,13 +6,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 export const PhotosList = () => {
 
-    const dateOptions = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-    };
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [pageImages, setPageImages] = useState([]);
@@ -32,17 +25,17 @@ export const PhotosList = () => {
             search(searchQuery, pageNum)
                 .then(data => {
                     setPage({
-                        max: Math.ceil(data.count / 8),
+                        max: data.currentCount !== 0 ? Math.ceil(data.currentCount / 8) : 1,
                         current: pageNum
                     });
-                    setPageImages(data.response)
+                    setPageImages(data.images)
                 });
         } else {
             getAll(pageNum)
                 .then(data => {
 
                     setPage({
-                        max: Math.ceil(data.count / 8),
+                        max: Math.ceil(data.totalCount / 8),
                         current: pageNum
                     });
                     setPageImages(data.images)
@@ -104,7 +97,7 @@ export const PhotosList = () => {
             </div>
             <div className="row tm-mb-90 tm-gallery">
                 {pageImages.map(i => (
-                    <div key={i._id} className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                    <div key={i.id} className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                         <figure className="effect-ming tm-video-item">
                             <img src={i.resizedUrl} alt="" className="img-fluid " />
                             <figcaption className="d-flex align-items-center justify-content-center">
@@ -114,7 +107,7 @@ export const PhotosList = () => {
                         </figure>
                         <div className="d-flex justify-content-between tm-text-gray">
                             <span className="tm-text-gray-light">Added on {new Date(i.createdOn).toDateString()}</span>
-                            <span>Likes: {i.likes ? i.likes : 0} </span>
+                            <span>Rating: {i.rating} </span>
                         </div>
                     </div>
                 ))}
@@ -145,8 +138,8 @@ export const PhotosList = () => {
                         }
 
                     </div> */}
-                    <form onSubmit={onPageSubmit} class="tm-text-primary">
-                        Page <input ref={pageInput} type="text" onChange={(e) => setPage(p => ({ ...p, current: e.target.value }))} value={page.current} size="1" class="tm-input-paging tm-text-primary" /> of {page.max}
+                    <form onSubmit={onPageSubmit} className="tm-text-primary">
+                        Page <input ref={pageInput} type="text" onChange={(e) => setPage(p => ({ ...p, current: e.target.value }))} value={page.current} size="1" className="tm-input-paging tm-text-primary" /> of {page.max}
                     </form>
 
 
